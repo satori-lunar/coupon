@@ -49,7 +49,7 @@ export default function CouponPage({ coupon, onNext, onPrevious }: CouponPagePro
   }
 
   return (
-    <div className="h-full w-full flex flex-col items-center justify-center px-8 md:px-16">
+    <div className="h-full w-full flex flex-col items-center justify-center px-8 md:px-16 pb-24">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

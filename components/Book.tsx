@@ -124,7 +124,7 @@ export default function Book() {
       </AnimatePresence>
 
       {/* Page Indicator Dots */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10 pb-2">
         {Array.from({ length: TOTAL_PAGES }).map((_, index) => (
           <button
             key={index}
