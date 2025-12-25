@@ -26,54 +26,81 @@ export default function HubPage({ onNavigate }: HubPageProps) {
         </div>
 
         {/* Navigation Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
           {/* Coupons Book */}
           <motion.button
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
+            transition={{ delay: 0.1, type: 'spring', stiffness: 100 }}
+            whileHover={{ scale: 1.03, y: -5 }}
+            whileTap={{ scale: 0.98 }}
             onClick={() => onNavigate('book')}
-            className="bg-cream/50 hover:bg-cream/70 border-2 border-rose/20 hover:border-rose/40 rounded-lg p-8 text-center space-y-4 transition-all duration-300 transform hover:scale-105"
+            className="relative bg-gradient-to-br from-cream/80 to-cream/60 backdrop-blur-sm border border-rose/30 rounded-2xl p-10 text-center space-y-5 transition-all duration-500 card-shadow hover:card-shadow-hover overflow-hidden group"
           >
-            <div className="text-5xl mb-4">📖</div>
-            <h2 className="font-serif text-2xl md:text-3xl text-rose" style={{ fontFamily: 'var(--font-serif)' }}>
+            <div className="absolute inset-0 bg-gradient-to-br from-rose/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <motion.div
+              animate={{ rotate: [0, 5, -5, 0] }}
+              transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
+              className="text-6xl mb-4 relative z-10"
+            >
+              📖
+            </motion.div>
+            <h2 className="font-serif text-3xl md:text-4xl text-rose relative z-10" style={{ fontFamily: 'var(--font-serif)' }}>
               The Book
             </h2>
-            <p className="text-warm-gray text-lg" style={{ fontFamily: 'var(--font-body)' }}>
+            <p className="text-warm-gray text-lg leading-relaxed relative z-10" style={{ fontFamily: 'var(--font-body)' }}>
               Moments of intention and presence
             </p>
           </motion.button>
 
           {/* Memories Gallery */}
           <motion.button
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
+            transition={{ delay: 0.2, type: 'spring', stiffness: 100 }}
+            whileHover={{ scale: 1.03, y: -5 }}
+            whileTap={{ scale: 0.98 }}
             onClick={() => onNavigate('memories')}
-            className="bg-cream/50 hover:bg-cream/70 border-2 border-rose/20 hover:border-rose/40 rounded-lg p-8 text-center space-y-4 transition-all duration-300 transform hover:scale-105"
+            className="relative bg-gradient-to-br from-cream/80 to-cream/60 backdrop-blur-sm border border-rose/30 rounded-2xl p-10 text-center space-y-5 transition-all duration-500 card-shadow hover:card-shadow-hover overflow-hidden group"
           >
-            <div className="text-5xl mb-4">📸</div>
-            <h2 className="font-serif text-2xl md:text-3xl text-rose" style={{ fontFamily: 'var(--font-serif)' }}>
+            <div className="absolute inset-0 bg-gradient-to-br from-rose/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <motion.div
+              animate={{ scale: [1, 1.1, 1] }}
+              transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
+              className="text-6xl mb-4 relative z-10"
+            >
+              📸
+            </motion.div>
+            <h2 className="font-serif text-3xl md:text-4xl text-rose relative z-10" style={{ fontFamily: 'var(--font-serif)' }}>
               Memories
             </h2>
-            <p className="text-warm-gray text-lg" style={{ fontFamily: 'var(--font-body)' }}>
+            <p className="text-warm-gray text-lg leading-relaxed relative z-10" style={{ fontFamily: 'var(--font-body)' }}>
               Photos, videos, and journal entries
             </p>
           </motion.button>
 
           {/* Date Nights */}
           <motion.button
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
+            transition={{ delay: 0.3, type: 'spring', stiffness: 100 }}
+            whileHover={{ scale: 1.03, y: -5 }}
+            whileTap={{ scale: 0.98 }}
             onClick={() => onNavigate('date-nights')}
-            className="bg-cream/50 hover:bg-cream/70 border-2 border-rose/20 hover:border-rose/40 rounded-lg p-8 text-center space-y-4 transition-all duration-300 transform hover:scale-105"
+            className="relative bg-gradient-to-br from-cream/80 to-cream/60 backdrop-blur-sm border border-rose/30 rounded-2xl p-10 text-center space-y-5 transition-all duration-500 card-shadow hover:card-shadow-hover overflow-hidden group"
           >
-            <div className="text-5xl mb-4">💕</div>
-            <h2 className="font-serif text-2xl md:text-3xl text-rose" style={{ fontFamily: 'var(--font-serif)' }}>
+            <div className="absolute inset-0 bg-gradient-to-br from-rose/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <motion.div
+              animate={{ scale: [1, 1.15, 1] }}
+              transition={{ repeat: Infinity, duration: 2.5, ease: 'easeInOut' }}
+              className="text-6xl mb-4 relative z-10"
+            >
+              💕
+            </motion.div>
+            <h2 className="font-serif text-3xl md:text-4xl text-rose relative z-10" style={{ fontFamily: 'var(--font-serif)' }}>
               Date Nights
             </h2>
-            <p className="text-warm-gray text-lg" style={{ fontFamily: 'var(--font-body)' }}>
+            <p className="text-warm-gray text-lg leading-relaxed relative z-10" style={{ fontFamily: 'var(--font-body)' }}>
               Adventures and experiences together
             </p>
           </motion.button>

@@ -17,17 +17,25 @@ export default function CoverPage({ onNext }: CoverPageProps) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, ease: 'easeOut' }}
-        className="text-center space-y-8"
+        className="text-center space-y-8 relative"
       >
+        <motion.div
+          className="absolute inset-0 flex items-center justify-center pointer-events-none"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.3 }}
+          transition={{ duration: 2 }}
+        >
+          <div className="w-96 h-96 bg-rose/10 rounded-full blur-3xl" />
+        </motion.div>
         <motion.h1
-          className="font-serif text-6xl md:text-8xl text-rose mb-4"
+          className="font-serif text-6xl md:text-8xl text-rose mb-4 relative z-10 drop-shadow-lg"
           style={{ fontFamily: 'var(--font-serif)' }}
         >
           A Book of Moments
         </motion.h1>
         
         <motion.p
-          className="font-handwritten text-2xl md:text-3xl text-warm-gray"
+          className="font-handwritten text-2xl md:text-3xl text-warm-gray relative z-10"
           style={{ fontFamily: 'var(--font-handwritten)' }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -38,7 +46,7 @@ export default function CoverPage({ onNext }: CoverPageProps) {
 
         {personalization.name && (
           <motion.p
-            className="font-handwritten text-3xl md:text-4xl text-rose mt-4"
+            className="font-handwritten text-3xl md:text-4xl text-rose mt-4 relative z-10"
             style={{ fontFamily: 'var(--font-handwritten)' }}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -49,22 +57,24 @@ export default function CoverPage({ onNext }: CoverPageProps) {
         )}
 
         <motion.div
-          className="mt-12"
+          className="mt-12 relative z-10"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 1, duration: 0.8 }}
+          transition={{ delay: 1, duration: 0.8, type: 'spring' }}
         >
-          <svg
-            className="w-16 h-16 md:w-20 md:h-20 mx-auto text-rose/60"
+          <motion.svg
+            className="w-16 h-16 md:w-20 md:h-20 mx-auto text-rose/70 drop-shadow-md"
             fill="currentColor"
             viewBox="0 0 24 24"
+            animate={{ scale: [1, 1.1, 1] }}
+            transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
           >
             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-          </svg>
+          </motion.svg>
         </motion.div>
 
         <motion.p
-          className="mt-8 text-warm-gray text-xl md:text-2xl font-medium"
+          className="mt-8 text-warm-gray text-xl md:text-2xl font-medium relative z-10"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5, duration: 1 }}

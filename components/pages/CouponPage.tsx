@@ -60,24 +60,29 @@ export default function CouponPage({ coupon, onNext, onPrevious }: CouponPagePro
         {/* Decorative element */}
         <motion.div
           className="flex justify-center"
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
+          initial={{ scale: 0, rotate: -180 }}
+          animate={{ scale: 1, rotate: 0 }}
           transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
         >
-          <div className="w-24 h-24 rounded-full bg-blush/30 flex items-center justify-center">
-            <svg
-              className="w-12 h-12 text-rose/60"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+          <div className="relative w-28 h-28 rounded-full bg-gradient-to-br from-rose/20 via-blush/30 to-rose/20 flex items-center justify-center shadow-lg">
+            <motion.div
+              animate={{ scale: [1, 1.1, 1] }}
+              transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-              />
-            </svg>
+              <svg
+                className="w-14 h-14 text-rose/70"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                />
+              </svg>
+            </motion.div>
           </div>
         </motion.div>
 
@@ -112,7 +117,7 @@ export default function CouponPage({ coupon, onNext, onPrevious }: CouponPagePro
         >
           {redeemed ? (
             <div className="space-y-4">
-              <div className="inline-block px-8 py-4 bg-cream border-2 border-rose/40 rounded-full">
+              <div className="inline-block px-8 py-4 bg-gradient-to-r from-cream to-cream/90 border-2 border-rose/40 rounded-full shadow-md">
                 <p className="text-rose font-handwritten text-2xl md:text-3xl font-semibold" style={{ fontFamily: 'var(--font-handwritten)' }}>
                   Redeemed
                 </p>
@@ -124,13 +129,15 @@ export default function CouponPage({ coupon, onNext, onPrevious }: CouponPagePro
               )}
             </div>
           ) : (
-            <button
+            <motion.button
               onClick={handleRedeem}
-              className="px-12 py-5 bg-rose/25 hover:bg-rose/35 active:bg-rose/45 text-rose rounded-full transition-all duration-300 font-handwritten text-2xl md:text-3xl font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-100"
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.98 }}
+              className="px-12 py-5 bg-gradient-to-r from-rose/30 via-rose/25 to-rose/30 hover:from-rose/40 hover:via-rose/35 hover:to-rose/40 text-rose rounded-full transition-all duration-300 font-handwritten text-2xl md:text-3xl font-semibold shadow-lg hover:shadow-2xl border border-rose/30 backdrop-blur-sm"
               style={{ fontFamily: 'var(--font-handwritten)' }}
             >
               Redeem This Moment
-            </button>
+            </motion.button>
           )}
         </motion.div>
 

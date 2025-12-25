@@ -174,13 +174,15 @@ export default function Book() {
 
       {/* Hub Button */}
       {!showHub && (
-        <button
+        <motion.button
           onClick={() => setShowHub(true)}
-          className="absolute top-4 left-4 z-20 px-4 py-2 bg-rose/20 hover:bg-rose/30 text-rose rounded-full transition-all duration-300 font-handwritten text-lg shadow-lg"
+          whileHover={{ scale: 1.05, y: -2 }}
+          whileTap={{ scale: 0.95 }}
+          className="absolute top-4 left-4 z-20 px-5 py-2.5 bg-gradient-to-r from-rose/25 to-rose/20 hover:from-rose/35 hover:to-rose/30 text-rose rounded-full transition-all duration-300 font-handwritten text-lg shadow-lg border border-rose/30 backdrop-blur-sm"
           style={{ fontFamily: 'var(--font-handwritten)' }}
         >
           🏠 Hub
-        </button>
+        </motion.button>
       )}
 
       {/* Page Indicator Dots */}
@@ -198,10 +200,10 @@ export default function Book() {
                 }, 300)
               }
             }}
-            className={`h-2 w-2 rounded-full transition-all duration-300 ${
+            className={`h-2 rounded-full transition-all duration-300 ${
               index === currentPage
-                ? 'bg-rose w-8'
-                : 'bg-soft-gray/40 hover:bg-soft-gray/60'
+                ? 'bg-rose w-8 shadow-md'
+                : 'bg-soft-gray/40 hover:bg-soft-gray/60 w-2'
             }`}
             aria-label={`Go to page ${index + 1}`}
           />

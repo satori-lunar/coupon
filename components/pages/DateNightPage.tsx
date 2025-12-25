@@ -75,13 +75,15 @@ export default function DateNightPage({ onBack, onViewAdventureBook }: DateNight
               </p>
             </div>
             {onViewAdventureBook && (
-              <button
+              <motion.button
                 onClick={onViewAdventureBook}
-                className="px-4 py-2 bg-rose/20 hover:bg-rose/30 text-rose rounded-full transition-all duration-300 font-handwritten text-lg"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-5 py-2.5 bg-gradient-to-r from-rose/25 to-rose/20 hover:from-rose/35 hover:to-rose/30 text-rose rounded-full transition-all duration-300 font-handwritten text-lg shadow-md hover:shadow-lg border border-rose/30"
                 style={{ fontFamily: 'var(--font-handwritten)' }}
               >
                 📖 Adventure Book
-              </button>
+              </motion.button>
             )}
           </div>
         </div>
@@ -91,8 +93,10 @@ export default function DateNightPage({ onBack, onViewAdventureBook }: DateNight
           <motion.button
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
+            whileHover={{ scale: 1.05, y: -3 }}
+            whileTap={{ scale: 0.98 }}
             onClick={handleGenerate}
-            className="px-12 py-5 bg-rose/25 hover:bg-rose/35 text-rose rounded-full transition-all duration-300 font-handwritten text-2xl md:text-3xl font-semibold shadow-lg hover:shadow-xl transform hover:scale-105"
+            className="px-12 py-5 bg-gradient-to-r from-rose/30 via-rose/25 to-rose/30 hover:from-rose/40 hover:via-rose/35 hover:to-rose/40 text-rose rounded-full transition-all duration-300 font-handwritten text-2xl md:text-3xl font-semibold shadow-xl hover:shadow-2xl border border-rose/30 backdrop-blur-sm"
             style={{ fontFamily: 'var(--font-handwritten)' }}
           >
             Generate Date Night
@@ -114,20 +118,24 @@ export default function DateNightPage({ onBack, onViewAdventureBook }: DateNight
             )}
             
             <div className="flex gap-4 justify-center">
-              <button
+              <motion.button
                 onClick={handleGenerate}
-                className="px-6 py-3 bg-rose/20 hover:bg-rose/30 text-rose rounded-full transition-all duration-300 font-handwritten text-lg"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-6 py-3 bg-gradient-to-r from-rose/25 to-rose/20 hover:from-rose/35 hover:to-rose/30 text-rose rounded-full transition-all duration-300 font-handwritten text-lg shadow-md hover:shadow-lg border border-rose/30"
                 style={{ fontFamily: 'var(--font-handwritten)' }}
               >
                 Generate Another
-              </button>
-              <button
+              </motion.button>
+              <motion.button
                 onClick={onBack}
-                className="px-6 py-3 bg-warm-gray/20 hover:bg-warm-gray/30 text-warm-gray rounded-full transition-all duration-300 font-handwritten text-lg"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-6 py-3 bg-gradient-to-r from-warm-gray/20 to-warm-gray/15 hover:from-warm-gray/30 hover:to-warm-gray/25 text-warm-gray rounded-full transition-all duration-300 font-handwritten text-lg shadow-md hover:shadow-lg border border-warm-gray/30"
                 style={{ fontFamily: 'var(--font-handwritten)' }}
               >
                 ← Back
-              </button>
+              </motion.button>
             </div>
           </motion.div>
         )}
