@@ -88,7 +88,7 @@ export const coupons: Coupon[] = [
     id: 'dance-in-the-living-room',
     title: 'Dance in the Living Room',
     description:
-      'An evening where we clear the space, put on music that moves us, and dance — slow or silly, it doesn't matter. Just movement and connection.',
+      "An evening where we clear the space, put on music that moves us, and dance — slow or silly, it doesn't matter. Just movement and connection.",
   },
   {
     id: 'reading-aloud',
