@@ -46,7 +46,7 @@ export const coupons: Coupon[] = [
     id: 'letter-from-the-future',
     title: 'Letter From the Future',
     description:
-      'A handwritten letter from me to you, dated years from now, reminding you of who you are and how deeply you're loved.',
+      "A handwritten letter from me to you, dated years from now, reminding you of who you are and how deeply you're loved.",
   },
 ]
 
