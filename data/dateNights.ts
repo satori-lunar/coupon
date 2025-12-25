@@ -27,7 +27,7 @@ export const dateNights: DateNight[] = [
   {
     id: 'cooking-challenge',
     title: 'Cooking Challenge',
-    description: 'Pick a cuisine we've never tried. Cook together, taste as we go, and enjoy the meal we created with our own hands.',
+    description: "Pick a cuisine we've never tried. Cook together, taste as we go, and enjoy the meal we created with our own hands.",
     category: 'creative',
   },
   {
@@ -93,7 +93,7 @@ export const dateNights: DateNight[] = [
   {
     id: 'coffee-shop-date',
     title: 'Coffee Shop Date',
-    description: 'Visit a new coffee shop. Order something we've never tried. Sit and talk, or bring books and read together in comfortable silence.',
+    description: "Visit a new coffee shop. Order something we've never tried. Sit and talk, or bring books and read together in comfortable silence.",
     category: 'cozy',
   },
   {
