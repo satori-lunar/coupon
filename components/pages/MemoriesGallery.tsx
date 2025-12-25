@@ -78,7 +78,7 @@ export default function MemoriesGallery({ onBack }: MemoriesGalleryProps) {
             onClick={onBack}
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
-            className="px-6 py-2.5 bg-gradient-to-r from-rose/25 to-rose/20 hover:from-rose/35 hover:to-rose/30 text-rose rounded-full transition-all duration-300 font-handwritten text-lg shadow-md hover:shadow-lg border border-rose/30"
+            className="px-6 py-2.5 bg-gray-light hover:bg-gray-200 text-warm-gray rounded-full transition-all duration-300 font-handwritten text-base shadow-sm hover:shadow-md border border-gray-200"
             style={{ fontFamily: 'var(--font-handwritten)' }}
           >
             ← Back
@@ -94,12 +94,12 @@ export default function MemoriesGallery({ onBack }: MemoriesGalleryProps) {
                 key={memory.couponId}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                whileHover={{ y: -5, scale: 1.02 }}
-                className="bg-gradient-to-br from-cream/70 to-cream/50 rounded-2xl p-6 space-y-4 border border-rose/30 shadow-lg hover:shadow-xl transition-all cursor-pointer"
+                whileHover={{ y: -3, scale: 1.01 }}
+                className="card-modern rounded-3xl p-6 space-y-4 hover:card-modern-hover transition-all cursor-pointer"
                 onClick={() => setSelectedMemory(memory.couponId)}
               >
                 {/* Coupon Title */}
-                <h3 className="font-serif text-2xl md:text-3xl text-rose" style={{ fontFamily: 'var(--font-serif)' }}>
+                <h3 className="font-serif text-xl md:text-2xl text-warm-gray font-bold" style={{ fontFamily: 'var(--font-serif)' }}>
                   {coupon?.title || memory.couponId}
                 </h3>
 
@@ -110,8 +110,8 @@ export default function MemoriesGallery({ onBack }: MemoriesGalleryProps) {
 
                 {/* Notes */}
                 {memory.notes && (
-                  <div className="bg-cream/80 rounded-xl p-4 border border-rose/20 shadow-inner">
-                    <p className="text-warm-gray text-lg leading-relaxed" style={{ fontFamily: 'var(--font-body)' }}>
+                  <div className="bg-gray-light rounded-2xl p-4 border border-gray-200">
+                    <p className="text-warm-gray text-base leading-relaxed" style={{ fontFamily: 'var(--font-body)' }}>
                       {memory.notes}
                     </p>
                   </div>
@@ -125,12 +125,12 @@ export default function MemoriesGallery({ onBack }: MemoriesGalleryProps) {
                         key={index}
                         src={photo}
                         alt={`Memory ${index + 1}`}
-                        className="w-full h-36 object-cover rounded-xl shadow-md hover:shadow-lg transition-shadow"
+                        className="w-full h-36 object-cover rounded-2xl shadow-sm hover:shadow-md transition-shadow"
                         whileHover={{ scale: 1.05 }}
                       />
                     ))}
                     {memory.photos.length > 4 && (
-                      <div className="w-full h-36 bg-gradient-to-br from-rose/20 to-blush/20 rounded-xl flex items-center justify-center text-rose font-handwritten text-lg border border-rose/30 shadow-md">
+                      <div className="w-full h-36 bg-gray-light rounded-2xl flex items-center justify-center text-rose font-handwritten text-base border border-gray-200 shadow-sm">
                         +{memory.photos.length - 4} more
                       </div>
                     )}
@@ -156,7 +156,7 @@ export default function MemoriesGallery({ onBack }: MemoriesGalleryProps) {
                   onClick={() => setSelectedMemory(memory.couponId)}
                   whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full px-4 py-3 bg-gradient-to-r from-rose/25 to-rose/20 hover:from-rose/35 hover:to-rose/30 text-rose rounded-full transition-all duration-300 font-handwritten text-lg shadow-md hover:shadow-lg border border-rose/30"
+                  className="w-full px-4 py-3 gradient-rose-modern text-white rounded-full transition-all duration-300 font-handwritten text-base shadow-md hover:shadow-lg"
                   style={{ fontFamily: 'var(--font-handwritten)' }}
                 >
                   View Full Memory
@@ -176,7 +176,7 @@ export default function MemoriesGallery({ onBack }: MemoriesGalleryProps) {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-cream rounded-lg p-6 max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+            className="card-modern rounded-3xl p-8 max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             {(() => {
@@ -187,7 +187,7 @@ export default function MemoriesGallery({ onBack }: MemoriesGalleryProps) {
               return (
                 <div className="space-y-6">
                   <div className="flex justify-between items-start mb-6">
-                    <h3 className="font-serif text-3xl md:text-4xl text-rose" style={{ fontFamily: 'var(--font-serif)' }}>
+                    <h3 className="font-serif text-2xl md:text-3xl text-warm-gray font-bold" style={{ fontFamily: 'var(--font-serif)' }}>
                       {coupon?.title || selectedMemory}
                     </h3>
                     <motion.button
@@ -205,8 +205,8 @@ export default function MemoriesGallery({ onBack }: MemoriesGalleryProps) {
                   </p>
 
                   {memory.notes && (
-                    <div className="bg-cream/80 rounded-xl p-5 border border-rose/20 shadow-inner mb-6">
-                      <p className="text-warm-gray text-xl leading-relaxed" style={{ fontFamily: 'var(--font-body)' }}>
+                    <div className="bg-gray-light rounded-2xl p-5 border border-gray-200 mb-6">
+                      <p className="text-warm-gray text-base leading-relaxed" style={{ fontFamily: 'var(--font-body)' }}>
                         {memory.notes}
                       </p>
                     </div>
@@ -219,7 +219,7 @@ export default function MemoriesGallery({ onBack }: MemoriesGalleryProps) {
                           key={index}
                           src={photo}
                           alt={`Photo ${index + 1}`}
-                          className="w-full h-52 object-cover rounded-xl shadow-md hover:shadow-xl transition-shadow"
+                          className="w-full h-52 object-cover rounded-2xl shadow-sm hover:shadow-md transition-shadow"
                           whileHover={{ scale: 1.05 }}
                         />
                       ))}

@@ -137,12 +137,12 @@ export default function DateNightCard({ dateNight, onReveal }: DateNightCardProp
   return (
     <div className="w-full max-w-md mx-auto">
       <motion.div
-        className="relative bg-gradient-to-br from-cream via-cream/95 to-cream rounded-2xl shadow-2xl overflow-hidden cursor-pointer border border-rose/20"
+        className="relative card-modern rounded-3xl overflow-hidden cursor-pointer"
         style={{ rotate }}
         drag="x"
         dragConstraints={{ left: -50, right: 50 }}
         dragElastic={0.2}
-        whileHover={{ scale: 1.02 }}
+        whileHover={{ scale: 1.01 }}
         onDragEnd={() => {
           x.set(0)
           if (!isRevealed) {
@@ -155,7 +155,7 @@ export default function DateNightCard({ dateNight, onReveal }: DateNightCardProp
         {!isRevealed && (
           <div
             id="scratch-area"
-            className="absolute inset-0 bg-gradient-to-br from-rose/95 via-blush/95 to-warm-gray/95 z-10 cursor-grab active:cursor-grabbing select-none backdrop-blur-sm"
+            className="absolute inset-0 gradient-rose-modern z-10 cursor-grab active:cursor-grabbing select-none"
             onMouseMove={isScratching ? handleScratch : undefined}
             onMouseDown={(e) => {
               setIsScratching(true)
@@ -182,10 +182,10 @@ export default function DateNightCard({ dateNight, onReveal }: DateNightCardProp
                 >
                   ✨
                 </motion.div>
-                <p className="text-2xl md:text-3xl text-cream font-handwritten mb-2" style={{ fontFamily: 'var(--font-handwritten)' }}>
+                <p className="text-2xl md:text-3xl text-white font-handwritten mb-2 font-semibold" style={{ fontFamily: 'var(--font-handwritten)' }}>
                   Shake or Scratch
                 </p>
-                <p className="text-lg text-cream/80">
+                <p className="text-lg text-white/90">
                   to reveal your date night
                 </p>
                 {scratchProgress > 0 && scratchProgress < 80 && (
@@ -203,21 +203,21 @@ export default function DateNightCard({ dateNight, onReveal }: DateNightCardProp
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: isRevealed ? 1 : 0, scale: isRevealed ? 1 : 0.8 }}
           transition={{ duration: 0.5 }}
-          className="p-10 space-y-6"
+          className="p-8 space-y-6"
         >
           <div className="text-center">
             <motion.div
               initial={{ scale: 0, rotate: -180 }}
               animate={{ scale: isRevealed ? 1 : 0, rotate: isRevealed ? 0 : -180 }}
               transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
-              className="text-6xl mb-6"
+              className="text-5xl mb-4"
             >
               💕
             </motion.div>
-            <h3 className="font-serif text-3xl md:text-4xl text-rose mb-6 drop-shadow-sm" style={{ fontFamily: 'var(--font-serif)' }}>
+            <h3 className="font-serif text-2xl md:text-3xl text-warm-gray mb-4 font-bold" style={{ fontFamily: 'var(--font-serif)' }}>
               {dateNight.title}
             </h3>
-            <p className="text-xl md:text-2xl text-warm-gray leading-relaxed mb-8 px-2" style={{ fontFamily: 'var(--font-body)' }}>
+            <p className="text-lg md:text-xl text-soft-gray leading-relaxed mb-6 px-2" style={{ fontFamily: 'var(--font-body)' }}>
               {dateNight.description}
             </p>
             
@@ -227,12 +227,12 @@ export default function DateNightCard({ dateNight, onReveal }: DateNightCardProp
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
-                className="mt-6 p-6 bg-gradient-to-br from-rose/15 to-blush/10 rounded-xl border border-rose/30 shadow-md"
+                className="mt-6 p-5 bg-gray-light rounded-2xl border border-rose/20"
               >
-                <p className="text-lg md:text-xl text-rose font-semibold mb-2" style={{ fontFamily: 'var(--font-handwritten)' }}>
+                <p className="text-base md:text-lg text-rose font-semibold mb-2" style={{ fontFamily: 'var(--font-handwritten)' }}>
                   💡 Your Adventure Idea:
                 </p>
-                <p className="text-lg md:text-xl text-warm-gray leading-relaxed mb-4" style={{ fontFamily: 'var(--font-body)' }}>
+                <p className="text-base md:text-lg text-warm-gray leading-relaxed mb-4" style={{ fontFamily: 'var(--font-body)' }}>
                   {selectedPrompt}
                 </p>
                 {dateNight.prompts && dateNight.prompts.length > 1 && (
@@ -260,7 +260,7 @@ export default function DateNightCard({ dateNight, onReveal }: DateNightCardProp
                   const randomPrompt = dateNight.prompts[Math.floor(Math.random() * dateNight.prompts.length)]
                   setSelectedPrompt(randomPrompt)
                 }}
-                className="mt-4 px-6 py-3 bg-rose/20 hover:bg-rose/30 text-rose rounded-full transition-all duration-300 font-handwritten text-lg"
+                className="mt-4 px-6 py-3 gradient-rose-modern text-white rounded-full transition-all duration-300 font-handwritten text-base shadow-md hover:shadow-lg"
                 style={{ fontFamily: 'var(--font-handwritten)' }}
               >
                 {selectedPrompt ? 'Get Another Idea' : 'Get Adventure Ideas'}

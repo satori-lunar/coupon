@@ -72,9 +72,9 @@ export default function MemoryJournal({ couponId, couponTitle }: MemoryJournalPr
     return (
       <motion.button
         onClick={() => setIsExpanded(true)}
-        whileHover={{ scale: 1.05, y: -2 }}
-        whileTap={{ scale: 0.95 }}
-        className="mt-6 px-8 py-4 bg-gradient-to-r from-blush/30 to-blush/20 hover:from-blush/40 hover:to-blush/30 text-warm-gray rounded-full transition-all duration-300 font-handwritten text-lg md:text-xl shadow-md hover:shadow-lg border border-rose/20"
+        whileHover={{ scale: 1.02, y: -2 }}
+        whileTap={{ scale: 0.98 }}
+        className="mt-6 px-8 py-4 bg-gray-light hover:bg-gray-200 text-warm-gray rounded-full transition-all duration-300 font-handwritten text-base md:text-lg shadow-sm hover:shadow-md border border-gray-200"
         style={{ fontFamily: 'var(--font-handwritten)' }}
       >
         {memory ? '📝 View Memories' : '✨ Add Memories'}
@@ -88,9 +88,9 @@ export default function MemoryJournal({ couponId, couponTitle }: MemoryJournalPr
       animate={{ opacity: 1, y: 0 }}
       className="mt-10 w-full max-w-2xl space-y-8"
     >
-      <div className="bg-gradient-to-br from-cream/80 to-cream/60 rounded-2xl p-8 border border-rose/30 shadow-lg space-y-8">
+      <div className="card-modern rounded-3xl p-8 space-y-8">
         <div className="flex justify-between items-center">
-          <h3 className="font-serif text-3xl md:text-4xl text-rose" style={{ fontFamily: 'var(--font-serif)' }}>
+          <h3 className="font-serif text-2xl md:text-3xl text-warm-gray font-bold" style={{ fontFamily: 'var(--font-serif)' }}>
             Memories of {couponTitle}
           </h3>
           <motion.button
@@ -105,12 +105,12 @@ export default function MemoryJournal({ couponId, couponTitle }: MemoryJournalPr
 
         {/* Notes/Journal */}
         <div className="space-y-3">
-          <label className="block text-warm-gray text-xl font-semibold">Journal Your Thoughts</label>
+          <label className="block text-warm-gray text-lg font-semibold mb-2">Journal Your Thoughts</label>
           <textarea
             value={notes}
             onChange={(e) => handleNotesChange(e.target.value)}
             placeholder="Write about this moment... how did it feel? What made it special?"
-            className="w-full h-40 p-5 bg-cream/70 border-2 border-rose/20 rounded-xl text-warm-gray text-lg resize-none focus:outline-none focus:border-rose/40 focus:ring-2 focus:ring-rose/20 shadow-inner transition-all"
+            className="w-full h-40 p-5 bg-gray-light border border-gray-200 rounded-2xl text-warm-gray text-base resize-none focus:outline-none focus:border-rose focus:ring-2 focus:ring-rose/20 transition-all"
             style={{ fontFamily: 'var(--font-body)' }}
           />
         </div>
@@ -118,12 +118,12 @@ export default function MemoryJournal({ couponId, couponTitle }: MemoryJournalPr
         {/* Photos */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <label className="text-warm-gray text-xl font-semibold">Photos</label>
+            <label className="text-warm-gray text-lg font-semibold">Photos</label>
             <motion.button
               onClick={() => fileInputRef.current?.click()}
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
-              className="px-5 py-2.5 bg-gradient-to-r from-rose/25 to-rose/20 hover:from-rose/35 hover:to-rose/30 text-rose rounded-full text-sm transition-all shadow-md border border-rose/30"
+              className="px-5 py-2.5 gradient-rose-modern text-white rounded-full text-sm transition-all shadow-md hover:shadow-lg"
             >
               + Add Photo
             </motion.button>
@@ -166,12 +166,12 @@ export default function MemoryJournal({ couponId, couponTitle }: MemoryJournalPr
         {/* Videos */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <label className="text-warm-gray text-xl font-semibold">Videos</label>
+            <label className="text-warm-gray text-lg font-semibold">Videos</label>
             <motion.button
               onClick={() => videoInputRef.current?.click()}
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
-              className="px-5 py-2.5 bg-gradient-to-r from-rose/25 to-rose/20 hover:from-rose/35 hover:to-rose/30 text-rose rounded-full text-sm transition-all shadow-md border border-rose/30"
+              className="px-5 py-2.5 gradient-rose-modern text-white rounded-full text-sm transition-all shadow-md hover:shadow-lg"
             >
               + Add Video
             </motion.button>

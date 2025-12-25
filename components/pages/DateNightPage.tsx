@@ -67,12 +67,12 @@ export default function DateNightPage({ onBack, onViewAdventureBook }: DateNight
         <div className="space-y-4">
           <div className="flex justify-between items-start">
             <div>
-              <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-rose" style={{ fontFamily: 'var(--font-serif)' }}>
-                Date Night Generator
-              </h2>
-              <p className="text-xl md:text-2xl text-warm-gray leading-relaxed mt-2" style={{ fontFamily: 'var(--font-body)' }}>
-                Let serendipity choose your next moment together
-              </p>
+          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-warm-gray font-bold" style={{ fontFamily: 'var(--font-serif)' }}>
+            Date Night Generator
+          </h2>
+          <p className="text-lg md:text-xl text-soft-gray leading-relaxed mt-3" style={{ fontFamily: 'var(--font-body)' }}>
+            Let serendipity choose your next moment together
+          </p>
             </div>
             {onViewAdventureBook && (
               <motion.button
@@ -96,7 +96,7 @@ export default function DateNightPage({ onBack, onViewAdventureBook }: DateNight
             whileHover={{ scale: 1.05, y: -3 }}
             whileTap={{ scale: 0.98 }}
             onClick={handleGenerate}
-            className="px-12 py-5 bg-gradient-to-r from-rose/30 via-rose/25 to-rose/30 hover:from-rose/40 hover:via-rose/35 hover:to-rose/40 text-rose rounded-full transition-all duration-300 font-handwritten text-2xl md:text-3xl font-semibold shadow-xl hover:shadow-2xl border border-rose/30 backdrop-blur-sm"
+            className="px-10 py-4 gradient-rose-modern text-white rounded-full transition-all duration-300 font-handwritten text-xl md:text-2xl font-semibold shadow-lg hover:shadow-xl"
             style={{ fontFamily: 'var(--font-handwritten)' }}
           >
             Generate Date Night
@@ -122,7 +122,7 @@ export default function DateNightPage({ onBack, onViewAdventureBook }: DateNight
                 onClick={handleGenerate}
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-6 py-3 bg-gradient-to-r from-rose/25 to-rose/20 hover:from-rose/35 hover:to-rose/30 text-rose rounded-full transition-all duration-300 font-handwritten text-lg shadow-md hover:shadow-lg border border-rose/30"
+                className="px-6 py-3 gradient-rose-modern text-white rounded-full transition-all duration-300 font-handwritten text-base shadow-md hover:shadow-lg"
                 style={{ fontFamily: 'var(--font-handwritten)' }}
               >
                 Generate Another
@@ -131,7 +131,7 @@ export default function DateNightPage({ onBack, onViewAdventureBook }: DateNight
                 onClick={onBack}
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-6 py-3 bg-gradient-to-r from-warm-gray/20 to-warm-gray/15 hover:from-warm-gray/30 hover:to-warm-gray/25 text-warm-gray rounded-full transition-all duration-300 font-handwritten text-lg shadow-md hover:shadow-lg border border-warm-gray/30"
+                className="px-6 py-3 bg-gray-light hover:bg-gray-200 text-warm-gray rounded-full transition-all duration-300 font-handwritten text-base shadow-sm hover:shadow-md border border-gray-200"
                 style={{ fontFamily: 'var(--font-handwritten)' }}
               >
                 ← Back

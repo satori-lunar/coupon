@@ -64,23 +64,17 @@ export default function CouponPage({ coupon, onNext, onPrevious }: CouponPagePro
           animate={{ scale: 1, rotate: 0 }}
           transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
         >
-          <div className="relative w-28 h-28 rounded-full bg-gradient-to-br from-rose/20 via-blush/30 to-rose/20 flex items-center justify-center shadow-lg">
+          <div className="relative w-20 h-20 rounded-full bg-gradient-to-br from-rose via-orange to-rose flex items-center justify-center shadow-lg">
             <motion.div
               animate={{ scale: [1, 1.1, 1] }}
               transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
             >
               <svg
-                className="w-14 h-14 text-rose/70"
-                fill="none"
-                stroke="currentColor"
+                className="w-10 h-10 text-white"
+                fill="currentColor"
                 viewBox="0 0 24 24"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1.5}
-                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                />
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
               </svg>
             </motion.div>
           </div>
@@ -88,7 +82,7 @@ export default function CouponPage({ coupon, onNext, onPrevious }: CouponPagePro
 
         {/* Title */}
         <motion.h2
-          className="font-serif text-5xl md:text-6xl lg:text-7xl text-rose font-semibold"
+          className="font-serif text-4xl md:text-5xl lg:text-6xl text-warm-gray font-bold"
           style={{ fontFamily: 'var(--font-serif)' }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -99,7 +93,7 @@ export default function CouponPage({ coupon, onNext, onPrevious }: CouponPagePro
 
         {/* Description */}
         <motion.p
-          className="text-2xl md:text-3xl lg:text-4xl leading-loose text-warm-gray px-4 font-normal"
+          className="text-xl md:text-2xl leading-relaxed text-soft-gray px-4 font-normal"
           style={{ fontFamily: 'var(--font-body)' }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -117,8 +111,8 @@ export default function CouponPage({ coupon, onNext, onPrevious }: CouponPagePro
         >
           {redeemed ? (
             <div className="space-y-4">
-              <div className="inline-block px-8 py-4 bg-gradient-to-r from-cream to-cream/90 border-2 border-rose/40 rounded-full shadow-md">
-                <p className="text-rose font-handwritten text-2xl md:text-3xl font-semibold" style={{ fontFamily: 'var(--font-handwritten)' }}>
+              <div className="inline-block px-8 py-4 bg-gray-light border-2 border-rose/30 rounded-full shadow-sm">
+                <p className="text-rose font-handwritten text-xl md:text-2xl font-semibold" style={{ fontFamily: 'var(--font-handwritten)' }}>
                   Redeemed
                 </p>
               </div>
@@ -131,9 +125,9 @@ export default function CouponPage({ coupon, onNext, onPrevious }: CouponPagePro
           ) : (
             <motion.button
               onClick={handleRedeem}
-              whileHover={{ scale: 1.05, y: -2 }}
+              whileHover={{ scale: 1.02, y: -2 }}
               whileTap={{ scale: 0.98 }}
-              className="px-12 py-5 bg-gradient-to-r from-rose/30 via-rose/25 to-rose/30 hover:from-rose/40 hover:via-rose/35 hover:to-rose/40 text-rose rounded-full transition-all duration-300 font-handwritten text-2xl md:text-3xl font-semibold shadow-lg hover:shadow-2xl border border-rose/30 backdrop-blur-sm"
+              className="px-10 py-4 gradient-rose-modern text-white rounded-full transition-all duration-300 font-handwritten text-xl md:text-2xl font-semibold shadow-lg hover:shadow-xl"
               style={{ fontFamily: 'var(--font-handwritten)' }}
             >
               Redeem This Moment

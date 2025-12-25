@@ -178,7 +178,7 @@ export default function Book() {
           onClick={() => setShowHub(true)}
           whileHover={{ scale: 1.05, y: -2 }}
           whileTap={{ scale: 0.95 }}
-          className="absolute top-4 left-4 z-20 px-5 py-2.5 bg-gradient-to-r from-rose/25 to-rose/20 hover:from-rose/35 hover:to-rose/30 text-rose rounded-full transition-all duration-300 font-handwritten text-lg shadow-lg border border-rose/30 backdrop-blur-sm"
+            className="absolute top-4 left-4 z-20 px-5 py-2.5 bg-white hover:bg-gray-light text-warm-gray rounded-full transition-all duration-300 font-handwritten text-base shadow-md hover:shadow-lg border border-gray-200"
           style={{ fontFamily: 'var(--font-handwritten)' }}
         >
           🏠 Hub

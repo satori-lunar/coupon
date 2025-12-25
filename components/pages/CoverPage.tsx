@@ -28,14 +28,14 @@ export default function CoverPage({ onNext }: CoverPageProps) {
           <div className="w-96 h-96 bg-rose/10 rounded-full blur-3xl" />
         </motion.div>
         <motion.h1
-          className="font-serif text-6xl md:text-8xl text-rose mb-4 relative z-10 drop-shadow-lg"
+          className="font-serif text-5xl md:text-7xl text-warm-gray mb-6 relative z-10 font-bold"
           style={{ fontFamily: 'var(--font-serif)' }}
         >
           A Book of Moments
         </motion.h1>
         
         <motion.p
-          className="font-handwritten text-2xl md:text-3xl text-warm-gray relative z-10"
+          className="font-handwritten text-xl md:text-2xl text-soft-gray relative z-10"
           style={{ fontFamily: 'var(--font-handwritten)' }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -63,9 +63,10 @@ export default function CoverPage({ onNext }: CoverPageProps) {
           transition={{ delay: 1, duration: 0.8, type: 'spring' }}
         >
           <motion.svg
-            className="w-16 h-16 md:w-20 md:h-20 mx-auto text-rose/70 drop-shadow-md"
+            className="w-14 h-14 md:w-16 md:h-16 mx-auto gradient-rose-modern"
             fill="currentColor"
             viewBox="0 0 24 24"
+            style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}
             animate={{ scale: [1, 1.1, 1] }}
             transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
           >

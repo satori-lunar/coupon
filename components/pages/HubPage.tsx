@@ -26,29 +26,29 @@ export default function HubPage({ onNavigate }: HubPageProps) {
         </div>
 
         {/* Navigation Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
           {/* Coupons Book */}
           <motion.button
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1, type: 'spring', stiffness: 100 }}
-            whileHover={{ scale: 1.03, y: -5 }}
+            whileHover={{ scale: 1.02, y: -3 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => onNavigate('book')}
-            className="relative bg-gradient-to-br from-cream/80 to-cream/60 backdrop-blur-sm border border-rose/30 rounded-2xl p-10 text-center space-y-5 transition-all duration-500 card-shadow hover:card-shadow-hover overflow-hidden group"
+            className="relative card-modern p-8 text-center space-y-4 transition-all duration-300 hover:card-modern-hover overflow-hidden group"
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-rose/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="absolute inset-0 gradient-rose-soft opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <motion.div
               animate={{ rotate: [0, 5, -5, 0] }}
               transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
-              className="text-6xl mb-4 relative z-10"
+              className="text-5xl mb-2 relative z-10"
             >
               📖
             </motion.div>
-            <h2 className="font-serif text-3xl md:text-4xl text-rose relative z-10" style={{ fontFamily: 'var(--font-serif)' }}>
+            <h2 className="font-serif text-2xl md:text-3xl text-warm-gray group-hover:text-rose transition-colors relative z-10" style={{ fontFamily: 'var(--font-serif)' }}>
               The Book
             </h2>
-            <p className="text-warm-gray text-lg leading-relaxed relative z-10" style={{ fontFamily: 'var(--font-body)' }}>
+            <p className="text-soft-gray text-base leading-relaxed relative z-10" style={{ fontFamily: 'var(--font-body)' }}>
               Moments of intention and presence
             </p>
           </motion.button>
@@ -58,23 +58,23 @@ export default function HubPage({ onNavigate }: HubPageProps) {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, type: 'spring', stiffness: 100 }}
-            whileHover={{ scale: 1.03, y: -5 }}
+            whileHover={{ scale: 1.02, y: -3 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => onNavigate('memories')}
-            className="relative bg-gradient-to-br from-cream/80 to-cream/60 backdrop-blur-sm border border-rose/30 rounded-2xl p-10 text-center space-y-5 transition-all duration-500 card-shadow hover:card-shadow-hover overflow-hidden group"
+            className="relative card-modern p-8 text-center space-y-4 transition-all duration-300 hover:card-modern-hover overflow-hidden group"
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-rose/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="absolute inset-0 gradient-rose-soft opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <motion.div
               animate={{ scale: [1, 1.1, 1] }}
               transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
-              className="text-6xl mb-4 relative z-10"
+              className="text-5xl mb-2 relative z-10"
             >
               📸
             </motion.div>
-            <h2 className="font-serif text-3xl md:text-4xl text-rose relative z-10" style={{ fontFamily: 'var(--font-serif)' }}>
+            <h2 className="font-serif text-2xl md:text-3xl text-warm-gray group-hover:text-rose transition-colors relative z-10" style={{ fontFamily: 'var(--font-serif)' }}>
               Memories
             </h2>
-            <p className="text-warm-gray text-lg leading-relaxed relative z-10" style={{ fontFamily: 'var(--font-body)' }}>
+            <p className="text-soft-gray text-base leading-relaxed relative z-10" style={{ fontFamily: 'var(--font-body)' }}>
               Photos, videos, and journal entries
             </p>
           </motion.button>
@@ -84,23 +84,23 @@ export default function HubPage({ onNavigate }: HubPageProps) {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, type: 'spring', stiffness: 100 }}
-            whileHover={{ scale: 1.03, y: -5 }}
+            whileHover={{ scale: 1.02, y: -3 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => onNavigate('date-nights')}
-            className="relative bg-gradient-to-br from-cream/80 to-cream/60 backdrop-blur-sm border border-rose/30 rounded-2xl p-10 text-center space-y-5 transition-all duration-500 card-shadow hover:card-shadow-hover overflow-hidden group"
+            className="relative card-modern p-8 text-center space-y-4 transition-all duration-300 hover:card-modern-hover overflow-hidden group"
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-rose/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="absolute inset-0 gradient-rose-soft opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <motion.div
               animate={{ scale: [1, 1.15, 1] }}
               transition={{ repeat: Infinity, duration: 2.5, ease: 'easeInOut' }}
-              className="text-6xl mb-4 relative z-10"
+              className="text-5xl mb-2 relative z-10"
             >
               💕
             </motion.div>
-            <h2 className="font-serif text-3xl md:text-4xl text-rose relative z-10" style={{ fontFamily: 'var(--font-serif)' }}>
+            <h2 className="font-serif text-2xl md:text-3xl text-warm-gray group-hover:text-rose transition-colors relative z-10" style={{ fontFamily: 'var(--font-serif)' }}>
               Date Nights
             </h2>
-            <p className="text-warm-gray text-lg leading-relaxed relative z-10" style={{ fontFamily: 'var(--font-body)' }}>
+            <p className="text-soft-gray text-base leading-relaxed relative z-10" style={{ fontFamily: 'var(--font-body)' }}>
               Adventures and experiences together
             </p>
           </motion.button>
