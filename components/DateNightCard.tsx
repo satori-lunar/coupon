@@ -40,12 +40,20 @@ export default function DateNightCard({ dateNight, onReveal }: DateNightCardProp
       }
     }
 
-    if (typeof DeviceMotionEvent !== 'undefined' && DeviceMotionEvent.requestPermission) {
-      DeviceMotionEvent.requestPermission().then(permission => {
-        if (permission === 'granted') {
-          window.addEventListener('devicemotion', handleDeviceMotion)
-        }
-      })
+    if (typeof DeviceMotionEvent !== 'undefined') {
+      const DeviceMotionEventWithPermission = DeviceMotionEvent as typeof DeviceMotionEvent & {
+        requestPermission?: () => Promise<PermissionState>
+      }
+      
+      if (DeviceMotionEventWithPermission.requestPermission) {
+        DeviceMotionEventWithPermission.requestPermission().then(permission => {
+          if (permission === 'granted') {
+            window.addEventListener('devicemotion', handleDeviceMotion)
+          }
+        })
+      } else {
+        window.addEventListener('devicemotion', handleDeviceMotion)
+      }
     } else {
       window.addEventListener('devicemotion', handleDeviceMotion)
     }
