@@ -3,15 +3,18 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import DateNightCard from '@/components/DateNightCard'
+import DateNightMemoryJournal from '@/components/DateNightMemoryJournal'
 import { dateNights, DateNight } from '@/data/dateNights'
 
 interface DateNightPageProps {
   onBack: () => void
+  onViewAdventureBook?: () => void
 }
 
-export default function DateNightPage({ onBack }: DateNightPageProps) {
+export default function DateNightPage({ onBack, onViewAdventureBook }: DateNightPageProps) {
   const [currentDateNight, setCurrentDateNight] = useState<DateNight | null>(null)
   const [usedDateNights, setUsedDateNights] = useState<string[]>([])
+  const [isRevealed, setIsRevealed] = useState(false)
 
   useEffect(() => {
     // Load used date nights from localStorage
@@ -29,17 +32,20 @@ export default function DateNightPage({ onBack }: DateNightPageProps) {
     return random
   }
 
-  const handleGenerate = () => {
-    const newDateNight = getRandomDateNight()
-    setCurrentDateNight(newDateNight)
-  }
 
   const handleReveal = () => {
     if (currentDateNight) {
+      setIsRevealed(true)
       const newUsed = [...usedDateNights, currentDateNight.id]
       setUsedDateNights(newUsed)
       localStorage.setItem('book-of-moments-used-dates', JSON.stringify(newUsed))
     }
+  }
+
+  const handleGenerate = () => {
+    setIsRevealed(false)
+    const newDateNight = getRandomDateNight()
+    setCurrentDateNight(newDateNight)
   }
 
   const handleReset = () => {
@@ -59,12 +65,25 @@ export default function DateNightPage({ onBack }: DateNightPageProps) {
       >
         {/* Header */}
         <div className="space-y-4">
-          <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-rose" style={{ fontFamily: 'var(--font-serif)' }}>
-            Date Night Generator
-          </h2>
-          <p className="text-xl md:text-2xl text-warm-gray leading-relaxed" style={{ fontFamily: 'var(--font-body)' }}>
-            Let serendipity choose your next moment together
-          </p>
+          <div className="flex justify-between items-start">
+            <div>
+              <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-rose" style={{ fontFamily: 'var(--font-serif)' }}>
+                Date Night Generator
+              </h2>
+              <p className="text-xl md:text-2xl text-warm-gray leading-relaxed mt-2" style={{ fontFamily: 'var(--font-body)' }}>
+                Let serendipity choose your next moment together
+              </p>
+            </div>
+            {onViewAdventureBook && (
+              <button
+                onClick={onViewAdventureBook}
+                className="px-4 py-2 bg-rose/20 hover:bg-rose/30 text-rose rounded-full transition-all duration-300 font-handwritten text-lg"
+                style={{ fontFamily: 'var(--font-handwritten)' }}
+              >
+                📖 Adventure Book
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Generate Button */}
@@ -88,6 +107,11 @@ export default function DateNightPage({ onBack }: DateNightPageProps) {
             className="space-y-6"
           >
             <DateNightCard dateNight={currentDateNight} onReveal={handleReveal} />
+            
+            {/* Memory Journal - Show when revealed */}
+            {isRevealed && currentDateNight && (
+              <DateNightMemoryJournal dateNightId={currentDateNight.id} dateNightTitle={currentDateNight.title} />
+            )}
             
             <div className="flex gap-4 justify-center">
               <button

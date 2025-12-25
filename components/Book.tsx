@@ -8,6 +8,8 @@ import CouponPage from './pages/CouponPage'
 import FinalPage from './pages/FinalPage'
 import MemoriesGallery from './pages/MemoriesGallery'
 import DateNightPage from './pages/DateNightPage'
+import DateNightAdventureBook from './pages/DateNightAdventureBook'
+import HubPage from './pages/HubPage'
 import { coupons } from '@/data/coupons'
 import { clearAllRedeemedCoupons } from '@/utils/storage'
 
@@ -16,8 +18,10 @@ const TOTAL_PAGES = 2 + coupons.length + 1 // Cover + Intro + Coupons + Final
 export default function Book() {
   const [currentPage, setCurrentPage] = useState(0)
   const [isFlipping, setIsFlipping] = useState(false)
+  const [showHub, setShowHub] = useState(true)
   const [showGallery, setShowGallery] = useState(false)
   const [showDateNight, setShowDateNight] = useState(false)
+  const [showAdventureBook, setShowAdventureBook] = useState(false)
   const [touchStart, setTouchStart] = useState<number | null>(null)
   const [touchEnd, setTouchEnd] = useState<number | null>(null)
 
@@ -90,13 +94,37 @@ export default function Book() {
     return () => window.removeEventListener('keydown', handleKeyPress)
   }, [goToNextPage, goToPreviousPage])
 
+  const handleNavigate = (section: 'book' | 'memories' | 'date-nights') => {
+    setShowHub(false)
+    if (section === 'book') {
+      setCurrentPage(0)
+    } else if (section === 'memories') {
+      setShowGallery(true)
+    } else if (section === 'date-nights') {
+      setShowDateNight(true)
+    }
+  }
+
   const renderPage = () => {
+    if (showHub) {
+      return <HubPage onNavigate={handleNavigate} />
+    }
+    
+    if (showAdventureBook) {
+      return <DateNightAdventureBook onBack={() => setShowAdventureBook(false)} />
+    }
+    
     if (showGallery) {
-      return <MemoriesGallery onBack={() => setShowGallery(false)} />
+      return <MemoriesGallery onBack={() => setShowHub(true)} />
     }
     
     if (showDateNight) {
-      return <DateNightPage onBack={() => setShowDateNight(false)} />
+      return (
+        <DateNightPage 
+          onBack={() => setShowHub(true)} 
+          onViewAdventureBook={() => setShowAdventureBook(true)}
+        />
+      )
     }
     
     if (currentPage === 0) {
@@ -144,30 +172,19 @@ export default function Book() {
         </motion.div>
       </AnimatePresence>
 
-      {/* Gallery Button */}
-      {!showGallery && !showDateNight && (
+      {/* Hub Button */}
+      {!showHub && (
         <button
-          onClick={() => setShowGallery(true)}
-          className="absolute top-4 right-4 z-20 px-4 py-2 bg-rose/20 hover:bg-rose/30 text-rose rounded-full transition-all duration-300 font-handwritten text-lg shadow-lg"
+          onClick={() => setShowHub(true)}
+          className="absolute top-4 left-4 z-20 px-4 py-2 bg-rose/20 hover:bg-rose/30 text-rose rounded-full transition-all duration-300 font-handwritten text-lg shadow-lg"
           style={{ fontFamily: 'var(--font-handwritten)' }}
         >
-          📸 Memories
-        </button>
-      )}
-
-      {/* Date Night Button */}
-      {!showGallery && !showDateNight && (
-        <button
-          onClick={() => setShowDateNight(true)}
-          className="absolute top-4 right-32 md:right-40 z-20 px-4 py-2 bg-rose/20 hover:bg-rose/30 text-rose rounded-full transition-all duration-300 font-handwritten text-lg shadow-lg"
-          style={{ fontFamily: 'var(--font-handwritten)' }}
-        >
-          💕 Date Night
+          🏠 Hub
         </button>
       )}
 
       {/* Page Indicator Dots */}
-      {!showGallery && !showDateNight && (
+      {!showHub && !showGallery && !showDateNight && !showAdventureBook && (
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10 pb-2">
         {Array.from({ length: TOTAL_PAGES }).map((_, index) => (
           <button
@@ -193,7 +210,7 @@ export default function Book() {
       )}
 
       {/* Navigation Arrows (Desktop) */}
-      {!showGallery && !showDateNight && currentPage > 0 && (
+      {!showHub && !showGallery && !showDateNight && !showAdventureBook && currentPage > 0 && (
         <button
           onClick={goToPreviousPage}
           disabled={isFlipping}
@@ -216,7 +233,7 @@ export default function Book() {
         </button>
       )}
 
-      {!showGallery && !showDateNight && currentPage < TOTAL_PAGES - 1 && (
+      {!showHub && !showGallery && !showDateNight && !showAdventureBook && currentPage < TOTAL_PAGES - 1 && (
         <button
           onClick={goToNextPage}
           disabled={isFlipping}

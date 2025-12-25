@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, useMotionValue, useTransform, animate } from 'framer-motion'
-import { DateNight } from '@/data/dateNights'
+import { DateNight, getRandomPrompt } from '@/data/dateNights'
 
 interface DateNightCardProps {
   dateNight: DateNight
@@ -14,6 +14,7 @@ export default function DateNightCard({ dateNight, onReveal }: DateNightCardProp
   const [isScratching, setIsScratching] = useState(false)
   const [scratchProgress, setScratchProgress] = useState(0)
   const [shakeCount, setShakeCount] = useState(0)
+  const [selectedPrompt, setSelectedPrompt] = useState<string | null>(null)
   
   const x = useMotionValue(0)
   const rotate = useTransform(x, [-50, 50], [-15, 15])
@@ -66,6 +67,11 @@ export default function DateNightCard({ dateNight, onReveal }: DateNightCardProp
   const reveal = () => {
     if (isRevealed) return
     setIsRevealed(true)
+    // Select a random prompt
+    if (dateNight.prompts && dateNight.prompts.length > 0) {
+      const randomPrompt = getRandomPrompt(dateNight)
+      setSelectedPrompt(randomPrompt)
+    }
     onReveal()
   }
 
@@ -210,9 +216,55 @@ export default function DateNightCard({ dateNight, onReveal }: DateNightCardProp
             <h3 className="font-serif text-3xl md:text-4xl text-rose mb-4" style={{ fontFamily: 'var(--font-serif)' }}>
               {dateNight.title}
             </h3>
-            <p className="text-xl md:text-2xl text-warm-gray leading-relaxed" style={{ fontFamily: 'var(--font-body)' }}>
+            <p className="text-xl md:text-2xl text-warm-gray leading-relaxed mb-6" style={{ fontFamily: 'var(--font-body)' }}>
               {dateNight.description}
             </p>
+            
+            {/* Random Prompt/Idea */}
+            {selectedPrompt && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="mt-6 p-6 bg-rose/10 rounded-lg border border-rose/20"
+              >
+                <p className="text-lg md:text-xl text-rose font-semibold mb-2" style={{ fontFamily: 'var(--font-handwritten)' }}>
+                  💡 Your Adventure Idea:
+                </p>
+                <p className="text-lg md:text-xl text-warm-gray leading-relaxed mb-4" style={{ fontFamily: 'var(--font-body)' }}>
+                  {selectedPrompt}
+                </p>
+                {dateNight.prompts && dateNight.prompts.length > 1 && (
+                  <button
+                    onClick={() => {
+                      const newPrompt = dateNight.prompts[Math.floor(Math.random() * dateNight.prompts.length)]
+                      setSelectedPrompt(newPrompt)
+                    }}
+                    className="text-rose hover:text-rose/80 text-sm underline font-handwritten"
+                    style={{ fontFamily: 'var(--font-handwritten)' }}
+                  >
+                    Get another idea →
+                  </button>
+                )}
+              </motion.div>
+            )}
+            
+            {/* Show all prompts button */}
+            {dateNight.prompts && dateNight.prompts.length > 0 && (
+              <motion.button
+                initial={{ opacity: 0 }}
+                animate={{ opacity: isRevealed ? 1 : 0 }}
+                transition={{ delay: 0.6 }}
+                onClick={() => {
+                  const randomPrompt = dateNight.prompts[Math.floor(Math.random() * dateNight.prompts.length)]
+                  setSelectedPrompt(randomPrompt)
+                }}
+                className="mt-4 px-6 py-3 bg-rose/20 hover:bg-rose/30 text-rose rounded-full transition-all duration-300 font-handwritten text-lg"
+                style={{ fontFamily: 'var(--font-handwritten)' }}
+              >
+                {selectedPrompt ? 'Get Another Idea' : 'Get Adventure Ideas'}
+              </motion.button>
+            )}
           </div>
         </motion.div>
       </motion.div>
