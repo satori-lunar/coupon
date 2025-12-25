@@ -7,6 +7,7 @@ import IntroductionPage from './pages/IntroductionPage'
 import CouponPage from './pages/CouponPage'
 import FinalPage from './pages/FinalPage'
 import MemoriesGallery from './pages/MemoriesGallery'
+import DateNightPage from './pages/DateNightPage'
 import { coupons } from '@/data/coupons'
 import { clearAllRedeemedCoupons } from '@/utils/storage'
 
@@ -16,6 +17,7 @@ export default function Book() {
   const [currentPage, setCurrentPage] = useState(0)
   const [isFlipping, setIsFlipping] = useState(false)
   const [showGallery, setShowGallery] = useState(false)
+  const [showDateNight, setShowDateNight] = useState(false)
   const [touchStart, setTouchStart] = useState<number | null>(null)
   const [touchEnd, setTouchEnd] = useState<number | null>(null)
 
@@ -93,6 +95,10 @@ export default function Book() {
       return <MemoriesGallery onBack={() => setShowGallery(false)} />
     }
     
+    if (showDateNight) {
+      return <DateNightPage onBack={() => setShowDateNight(false)} />
+    }
+    
     if (currentPage === 0) {
       return <CoverPage onNext={goToNextPage} />
     } else if (currentPage === 1) {
@@ -139,7 +145,7 @@ export default function Book() {
       </AnimatePresence>
 
       {/* Gallery Button */}
-      {!showGallery && (
+      {!showGallery && !showDateNight && (
         <button
           onClick={() => setShowGallery(true)}
           className="absolute top-4 right-4 z-20 px-4 py-2 bg-rose/20 hover:bg-rose/30 text-rose rounded-full transition-all duration-300 font-handwritten text-lg shadow-lg"
@@ -149,8 +155,19 @@ export default function Book() {
         </button>
       )}
 
+      {/* Date Night Button */}
+      {!showGallery && !showDateNight && (
+        <button
+          onClick={() => setShowDateNight(true)}
+          className="absolute top-4 right-32 md:right-40 z-20 px-4 py-2 bg-rose/20 hover:bg-rose/30 text-rose rounded-full transition-all duration-300 font-handwritten text-lg shadow-lg"
+          style={{ fontFamily: 'var(--font-handwritten)' }}
+        >
+          💕 Date Night
+        </button>
+      )}
+
       {/* Page Indicator Dots */}
-      {!showGallery && (
+      {!showGallery && !showDateNight && (
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10 pb-2">
         {Array.from({ length: TOTAL_PAGES }).map((_, index) => (
           <button
@@ -176,7 +193,7 @@ export default function Book() {
       )}
 
       {/* Navigation Arrows (Desktop) */}
-      {!showGallery && currentPage > 0 && (
+      {!showGallery && !showDateNight && currentPage > 0 && (
         <button
           onClick={goToPreviousPage}
           disabled={isFlipping}
@@ -199,7 +216,7 @@ export default function Book() {
         </button>
       )}
 
-      {!showGallery && currentPage < TOTAL_PAGES - 1 && (
+      {!showGallery && !showDateNight && currentPage < TOTAL_PAGES - 1 && (
         <button
           onClick={goToNextPage}
           disabled={isFlipping}
