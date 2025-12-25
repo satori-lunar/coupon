@@ -87,7 +87,7 @@ export const dateNights: DateNight[] = [
   {
     id: 'nature-hike',
     title: 'Nature Hike',
-    description: 'Find a trail we haven't explored. Walk at our own pace. Stop to notice the small things—flowers, birds, the way light filters through trees.',
+    description: "Find a trail we haven't explored. Walk at our own pace. Stop to notice the small things—flowers, birds, the way light filters through trees.",
     category: 'adventure',
   },
   {
