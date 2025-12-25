@@ -7,6 +7,7 @@ import IntroductionPage from './pages/IntroductionPage'
 import CouponPage from './pages/CouponPage'
 import FinalPage from './pages/FinalPage'
 import { coupons } from '@/data/coupons'
+import { clearAllRedeemedCoupons } from '@/utils/storage'
 
 const TOTAL_PAGES = 2 + coupons.length + 1 // Cover + Intro + Coupons + Final
 
@@ -66,6 +67,14 @@ export default function Book() {
   // Keyboard navigation
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
+      // Reset all redeemed coupons with Ctrl+Shift+R (or Cmd+Shift+R on Mac)
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'R') {
+        e.preventDefault()
+        clearAllRedeemedCoupons()
+        window.location.reload()
+        return
+      }
+      
       if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
         goToNextPage()
       } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {

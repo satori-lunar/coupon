@@ -44,3 +44,8 @@ export function redeemCoupon(couponId: string): void {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(redeemed))
 }
 
+export function clearAllRedeemedCoupons(): void {
+  if (typeof window === 'undefined') return
+  localStorage.removeItem(STORAGE_KEY)
+}
+
