@@ -12,8 +12,8 @@ module.exports = {
         blush: '#E8D5D0',
         rose: '#D4A5A5',
         'muted-rose': '#C9A8A8',
-        'warm-gray': '#8B7D7D',
-        'soft-gray': '#A89B9B',
+        'warm-gray': '#6B5D5D',
+        'soft-gray': '#8B7D7D',
       },
       fontFamily: {
         'handwritten': ['"Dancing Script"', 'cursive'],

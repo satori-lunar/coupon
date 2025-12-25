@@ -82,7 +82,7 @@ export default function CouponPage({ coupon, onNext, onPrevious }: CouponPagePro
 
         {/* Title */}
         <motion.h2
-          className="font-serif text-4xl md:text-5xl text-rose"
+          className="font-serif text-5xl md:text-6xl lg:text-7xl text-rose font-semibold"
           style={{ fontFamily: 'var(--font-serif)' }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -93,7 +93,7 @@ export default function CouponPage({ coupon, onNext, onPrevious }: CouponPagePro
 
         {/* Description */}
         <motion.p
-          className="text-xl md:text-2xl leading-relaxed text-warm-gray px-4"
+          className="text-2xl md:text-3xl lg:text-4xl leading-loose text-warm-gray px-4 font-normal"
           style={{ fontFamily: 'var(--font-body)' }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -111,13 +111,13 @@ export default function CouponPage({ coupon, onNext, onPrevious }: CouponPagePro
         >
           {redeemed ? (
             <div className="space-y-4">
-              <div className="inline-block px-6 py-3 bg-cream border-2 border-rose/30 rounded-full">
-                <p className="text-rose font-handwritten text-xl" style={{ fontFamily: 'var(--font-handwritten)' }}>
+              <div className="inline-block px-8 py-4 bg-cream border-2 border-rose/40 rounded-full">
+                <p className="text-rose font-handwritten text-2xl md:text-3xl font-semibold" style={{ fontFamily: 'var(--font-handwritten)' }}>
                   Redeemed
                 </p>
               </div>
               {redeemedDate && (
-                <p className="text-soft-gray text-sm mt-2">
+                <p className="text-warm-gray text-lg md:text-xl mt-3 font-medium">
                   {formatDate(redeemedDate)}
                 </p>
               )}
@@ -125,7 +125,7 @@ export default function CouponPage({ coupon, onNext, onPrevious }: CouponPagePro
           ) : (
             <button
               onClick={handleRedeem}
-              className="px-10 py-4 bg-rose/20 hover:bg-rose/30 active:bg-rose/40 text-rose rounded-full transition-all duration-300 font-handwritten text-xl shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-100"
+              className="px-12 py-5 bg-rose/25 hover:bg-rose/35 active:bg-rose/45 text-rose rounded-full transition-all duration-300 font-handwritten text-2xl md:text-3xl font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-100"
               style={{ fontFamily: 'var(--font-handwritten)' }}
             >
               Redeem This Moment

@@ -17,14 +17,14 @@ export default function IntroductionPage({ onNext, onPrevious }: IntroductionPag
         className="max-w-2xl text-center space-y-8"
       >
         <motion.p
-          className="text-xl md:text-2xl leading-relaxed text-warm-gray"
+          className="text-2xl md:text-3xl lg:text-4xl leading-loose text-warm-gray font-normal"
           style={{ fontFamily: 'var(--font-body)' }}
         >
           This is not a book of chores or obligations.
         </motion.p>
         
         <motion.p
-          className="text-xl md:text-2xl leading-relaxed text-warm-gray"
+          className="text-2xl md:text-3xl lg:text-4xl leading-loose text-warm-gray font-normal"
           style={{ fontFamily: 'var(--font-body)' }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -34,7 +34,7 @@ export default function IntroductionPage({ onNext, onPrevious }: IntroductionPag
         </motion.p>
 
         <motion.p
-          className="text-xl md:text-2xl leading-relaxed text-warm-gray mt-12"
+          className="text-2xl md:text-3xl lg:text-4xl leading-loose text-warm-gray mt-12 font-normal"
           style={{ fontFamily: 'var(--font-body)' }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -51,7 +51,7 @@ export default function IntroductionPage({ onNext, onPrevious }: IntroductionPag
         >
           <button
             onClick={onNext}
-            className="px-8 py-3 bg-rose/20 hover:bg-rose/30 text-rose rounded-full transition-all duration-300 font-handwritten text-xl"
+            className="px-10 py-4 bg-rose/25 hover:bg-rose/35 text-rose rounded-full transition-all duration-300 font-handwritten text-2xl md:text-3xl font-semibold"
             style={{ fontFamily: 'var(--font-handwritten)' }}
           >
             Turn the page →

@@ -16,14 +16,14 @@ export default function FinalPage({ onPrevious }: FinalPageProps) {
         className="max-w-2xl text-center space-y-8"
       >
         <motion.p
-          className="text-2xl md:text-3xl leading-relaxed text-warm-gray"
+          className="text-2xl md:text-3xl lg:text-4xl leading-loose text-warm-gray font-normal"
           style={{ fontFamily: 'var(--font-body)' }}
         >
           This book never really ends.
         </motion.p>
         
         <motion.p
-          className="text-2xl md:text-3xl leading-relaxed text-warm-gray mt-8"
+          className="text-2xl md:text-3xl lg:text-4xl leading-loose text-warm-gray mt-8 font-normal"
           style={{ fontFamily: 'var(--font-body)' }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

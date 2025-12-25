@@ -64,7 +64,7 @@ export default function CoverPage({ onNext }: CoverPageProps) {
         </motion.div>
 
         <motion.p
-          className="mt-8 text-soft-gray text-lg md:text-xl"
+          className="mt-8 text-warm-gray text-xl md:text-2xl font-medium"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5, duration: 1 }}
