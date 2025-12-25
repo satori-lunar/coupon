@@ -100,7 +100,7 @@ export const coupons: Coupon[] = [
     id: 'gratitude-evening',
     title: 'Gratitude Evening',
     description:
-      'A night where we share what we're grateful for — big things, tiny things, things about each other. A space to reflect and appreciate together.',
+      "A night where we share what we're grateful for — big things, tiny things, things about each other. A space to reflect and appreciate together.",
   },
 ]
 
