@@ -6,6 +6,7 @@ import CoverPage from './pages/CoverPage'
 import IntroductionPage from './pages/IntroductionPage'
 import CouponPage from './pages/CouponPage'
 import FinalPage from './pages/FinalPage'
+import MemoriesGallery from './pages/MemoriesGallery'
 import { coupons } from '@/data/coupons'
 import { clearAllRedeemedCoupons } from '@/utils/storage'
 
@@ -14,6 +15,7 @@ const TOTAL_PAGES = 2 + coupons.length + 1 // Cover + Intro + Coupons + Final
 export default function Book() {
   const [currentPage, setCurrentPage] = useState(0)
   const [isFlipping, setIsFlipping] = useState(false)
+  const [showGallery, setShowGallery] = useState(false)
   const [touchStart, setTouchStart] = useState<number | null>(null)
   const [touchEnd, setTouchEnd] = useState<number | null>(null)
 
@@ -87,6 +89,10 @@ export default function Book() {
   }, [goToNextPage, goToPreviousPage])
 
   const renderPage = () => {
+    if (showGallery) {
+      return <MemoriesGallery onBack={() => setShowGallery(false)} />
+    }
+    
     if (currentPage === 0) {
       return <CoverPage onNext={goToNextPage} />
     } else if (currentPage === 1) {
@@ -132,8 +138,20 @@ export default function Book() {
         </motion.div>
       </AnimatePresence>
 
+      {/* Gallery Button */}
+      {!showGallery && (
+        <button
+          onClick={() => setShowGallery(true)}
+          className="absolute top-4 right-4 z-20 px-4 py-2 bg-rose/20 hover:bg-rose/30 text-rose rounded-full transition-all duration-300 font-handwritten text-lg shadow-lg"
+          style={{ fontFamily: 'var(--font-handwritten)' }}
+        >
+          📸 Memories
+        </button>
+      )}
+
       {/* Page Indicator Dots */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10 pb-2">
+      {!showGallery && (
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10 pb-2">
         {Array.from({ length: TOTAL_PAGES }).map((_, index) => (
           <button
             key={index}
@@ -154,10 +172,11 @@ export default function Book() {
             aria-label={`Go to page ${index + 1}`}
           />
         ))}
-      </div>
+        </div>
+      )}
 
       {/* Navigation Arrows (Desktop) */}
-      {currentPage > 0 && (
+      {!showGallery && currentPage > 0 && (
         <button
           onClick={goToPreviousPage}
           disabled={isFlipping}
@@ -180,7 +199,7 @@ export default function Book() {
         </button>
       )}
 
-      {currentPage < TOTAL_PAGES - 1 && (
+      {!showGallery && currentPage < TOTAL_PAGES - 1 && (
         <button
           onClick={goToNextPage}
           disabled={isFlipping}

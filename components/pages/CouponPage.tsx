@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Coupon } from '@/data/coupons'
 import { isCouponRedeemed, getRedeemedDate, redeemCoupon } from '@/utils/storage'
+import MemoryJournal from '@/components/MemoryJournal'
 
 interface CouponPageProps {
   coupon: Coupon
@@ -49,7 +50,7 @@ export default function CouponPage({ coupon, onNext, onPrevious }: CouponPagePro
   }
 
   return (
-    <div className="h-full w-full flex flex-col items-center justify-center px-8 md:px-16 pb-24">
+    <div className="h-full w-full flex flex-col items-center justify-start px-8 md:px-16 pb-24 overflow-y-auto pt-8">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -132,6 +133,11 @@ export default function CouponPage({ coupon, onNext, onPrevious }: CouponPagePro
             </button>
           )}
         </motion.div>
+
+        {/* Memory Journal - Show when redeemed */}
+        {redeemed && (
+          <MemoryJournal couponId={coupon.id} couponTitle={coupon.title} />
+        )}
       </motion.div>
     </div>
   )
