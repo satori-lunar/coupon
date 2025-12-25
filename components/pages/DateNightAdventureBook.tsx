@@ -66,13 +66,15 @@ export default function DateNightAdventureBook({ onBack }: DateNightAdventureBoo
           <h2 className="font-serif text-4xl md:text-5xl text-rose" style={{ fontFamily: 'var(--font-serif)' }}>
             Your Adventure Book
           </h2>
-          <button
+          <motion.button
             onClick={onBack}
-            className="px-6 py-2 bg-rose/20 hover:bg-rose/30 text-rose rounded-full transition-all duration-300 font-handwritten text-lg"
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            className="px-6 py-2.5 bg-gradient-to-r from-rose/25 to-rose/20 hover:from-rose/35 hover:to-rose/30 text-rose rounded-full transition-all duration-300 font-handwritten text-lg shadow-md hover:shadow-lg border border-rose/30"
             style={{ fontFamily: 'var(--font-handwritten)' }}
           >
             ← Back
-          </button>
+          </motion.button>
         </motion.div>
 
         {/* Memories Grid */}
@@ -84,7 +86,8 @@ export default function DateNightAdventureBook({ onBack }: DateNightAdventureBoo
                 key={memory.dateNightId}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-cream/50 rounded-lg p-6 space-y-4 border border-rose/20"
+                whileHover={{ y: -5, scale: 1.02 }}
+                className="bg-gradient-to-br from-cream/70 to-cream/50 rounded-2xl p-6 space-y-4 border border-rose/30 shadow-lg hover:shadow-xl transition-all"
               >
                 {/* Date Night Title */}
                 <h3 className="font-serif text-2xl md:text-3xl text-rose" style={{ fontFamily: 'var(--font-serif)' }}>
@@ -98,7 +101,7 @@ export default function DateNightAdventureBook({ onBack }: DateNightAdventureBoo
 
                 {/* Notes */}
                 {memory.notes && (
-                  <div className="bg-cream/70 rounded p-4">
+                  <div className="bg-cream/80 rounded-xl p-4 border border-rose/20 shadow-inner">
                     <p className="text-warm-gray text-lg leading-relaxed" style={{ fontFamily: 'var(--font-body)' }}>
                       {memory.notes}
                     </p>
@@ -107,17 +110,18 @@ export default function DateNightAdventureBook({ onBack }: DateNightAdventureBoo
 
                 {/* Photos */}
                 {memory.photos && memory.photos.length > 0 && (
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-2 gap-3">
                     {memory.photos.slice(0, 4).map((photo, index) => (
-                      <img
+                      <motion.img
                         key={index}
                         src={photo}
                         alt={`Memory ${index + 1}`}
-                        className="w-full h-32 object-cover rounded-lg"
+                        className="w-full h-36 object-cover rounded-xl shadow-md hover:shadow-lg transition-shadow"
+                        whileHover={{ scale: 1.05 }}
                       />
                     ))}
                     {memory.photos.length > 4 && (
-                      <div className="w-full h-32 bg-rose/20 rounded-lg flex items-center justify-center text-rose font-handwritten text-lg">
+                      <div className="w-full h-36 bg-gradient-to-br from-rose/20 to-blush/20 rounded-xl flex items-center justify-center text-rose font-handwritten text-lg border border-rose/30 shadow-md">
                         +{memory.photos.length - 4} more
                       </div>
                     )}

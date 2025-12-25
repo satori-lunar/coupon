@@ -70,10 +70,10 @@ export default function DateNightMemoryJournal({ dateNightId, dateNightTitle }: 
     return (
       <motion.button
         onClick={() => setIsExpanded(true)}
-        className="mt-6 px-6 py-3 bg-blush/20 hover:bg-blush/30 text-warm-gray rounded-full transition-all duration-300 font-handwritten text-lg md:text-xl"
-        style={{ fontFamily: 'var(--font-handwritten)' }}
-        whileHover={{ scale: 1.05 }}
+        whileHover={{ scale: 1.05, y: -2 }}
         whileTap={{ scale: 0.95 }}
+        className="mt-6 px-8 py-4 bg-gradient-to-r from-blush/30 to-blush/20 hover:from-blush/40 hover:to-blush/30 text-warm-gray rounded-full transition-all duration-300 font-handwritten text-lg md:text-xl shadow-md hover:shadow-lg border border-rose/20"
+        style={{ fontFamily: 'var(--font-handwritten)' }}
       >
         {memory ? '📝 View Memories' : '✨ Add Memories'}
       </motion.button>
@@ -84,108 +84,130 @@ export default function DateNightMemoryJournal({ dateNightId, dateNightTitle }: 
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="mt-8 w-full max-w-2xl space-y-6"
+      className="mt-10 w-full max-w-2xl space-y-8"
     >
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="font-serif text-2xl md:text-3xl text-rose" style={{ fontFamily: 'var(--font-serif)' }}>
-          Memories of {dateNightTitle}
-        </h3>
-        <button
-          onClick={() => setIsExpanded(false)}
-          className="text-warm-gray hover:text-rose transition-colors"
-        >
-          ✕
-        </button>
-      </div>
-
-      {/* Notes/Journal */}
-      <div className="space-y-2">
-        <label className="block text-warm-gray text-lg font-medium">Journal Your Experience</label>
-        <textarea
-          value={notes}
-          onChange={(e) => handleNotesChange(e.target.value)}
-          placeholder="How was your date night? What made it special? What will you remember?"
-          className="w-full h-32 p-4 bg-cream/50 border border-rose/20 rounded-lg text-warm-gray text-lg resize-none focus:outline-none focus:border-rose/40 focus:ring-2 focus:ring-rose/20"
-          style={{ fontFamily: 'var(--font-body)' }}
-        />
-      </div>
-
-      {/* Photos */}
-      <div className="space-y-3">
-        <div className="flex items-center justify-between">
-          <label className="text-warm-gray text-lg font-medium">Photos</label>
-          <button
-            onClick={() => fileInputRef.current?.click()}
-            className="px-4 py-2 bg-rose/20 hover:bg-rose/30 text-rose rounded-full text-sm transition-colors"
+      <div className="bg-gradient-to-br from-cream/80 to-cream/60 rounded-2xl p-8 border border-rose/30 shadow-lg space-y-8">
+        <div className="flex justify-between items-center">
+          <h3 className="font-serif text-3xl md:text-4xl text-rose" style={{ fontFamily: 'var(--font-serif)' }}>
+            Memories of {dateNightTitle}
+          </h3>
+          <motion.button
+            onClick={() => setIsExpanded(false)}
+            whileHover={{ scale: 1.1, rotate: 90 }}
+            whileTap={{ scale: 0.9 }}
+            className="text-warm-gray hover:text-rose transition-colors text-2xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-rose/10"
           >
-            + Add Photo
-          </button>
+            ✕
+          </motion.button>
         </div>
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept="image/*"
-          onChange={(e) => handleFileSelect(e, 'photo')}
-          className="hidden"
-        />
-        {memory?.photos && memory.photos.length > 0 && (
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-            {memory.photos.map((photo, index) => (
-              <div key={index} className="relative group">
-                <img
-                  src={photo}
-                  alt={`Memory ${index + 1}`}
-                  className="w-full h-32 object-cover rounded-lg"
-                />
-                <button
-                  onClick={() => handleDeletePhoto(index)}
-                  className="absolute top-2 right-2 bg-red-500/80 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-                >
-                  ×
-                </button>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
 
-      {/* Videos */}
-      <div className="space-y-3">
-        <div className="flex items-center justify-between">
-          <label className="text-warm-gray text-lg font-medium">Videos</label>
-          <button
-            onClick={() => videoInputRef.current?.click()}
-            className="px-4 py-2 bg-rose/20 hover:bg-rose/30 text-rose rounded-full text-sm transition-colors"
-          >
-            + Add Video
-          </button>
+        {/* Notes/Journal */}
+        <div className="space-y-3">
+          <label className="block text-warm-gray text-xl font-semibold">Journal Your Experience</label>
+          <textarea
+            value={notes}
+            onChange={(e) => handleNotesChange(e.target.value)}
+            placeholder="How was your date night? What made it special? What will you remember?"
+            className="w-full h-40 p-5 bg-cream/70 border-2 border-rose/20 rounded-xl text-warm-gray text-lg resize-none focus:outline-none focus:border-rose/40 focus:ring-2 focus:ring-rose/20 shadow-inner transition-all"
+            style={{ fontFamily: 'var(--font-body)' }}
+          />
         </div>
-        <input
-          ref={videoInputRef}
-          type="file"
-          accept="video/*"
-          onChange={(e) => handleFileSelect(e, 'video')}
-          className="hidden"
-        />
-        {memory?.videos && memory.videos.length > 0 && (
-          <div className="grid grid-cols-1 gap-3">
-            {memory.videos.map((video, index) => (
-              <div key={index} className="relative group">
-                <video
-                  src={video}
-                  controls
-                  className="w-full rounded-lg"
-                />
-                <button
-                  onClick={() => handleDeleteVideo(index)}
-                  className="absolute top-2 right-2 bg-red-500/80 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-                >
-                  ×
-                </button>
-              </div>
-            ))}
+
+        {/* Photos */}
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <label className="text-warm-gray text-xl font-semibold">Photos</label>
+            <motion.button
+              onClick={() => fileInputRef.current?.click()}
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-5 py-2.5 bg-gradient-to-r from-rose/25 to-rose/20 hover:from-rose/35 hover:to-rose/30 text-rose rounded-full text-sm transition-all shadow-md border border-rose/30"
+            >
+              + Add Photo
+            </motion.button>
           </div>
-        )}
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            onChange={(e) => handleFileSelect(e, 'photo')}
+            className="hidden"
+          />
+          {memory?.photos && memory.photos.length > 0 && (
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              {memory.photos.map((photo, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="relative group rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow"
+                >
+                  <img
+                    src={photo}
+                    alt={`Memory ${index + 1}`}
+                    className="w-full h-40 object-cover"
+                  />
+                  <motion.button
+                    onClick={() => handleDeletePhoto(index)}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    className="absolute top-2 right-2 bg-red-500/90 hover:bg-red-600 text-white rounded-full w-7 h-7 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+                  >
+                    ×
+                  </motion.button>
+                </motion.div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Videos */}
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <label className="text-warm-gray text-xl font-semibold">Videos</label>
+            <motion.button
+              onClick={() => videoInputRef.current?.click()}
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-5 py-2.5 bg-gradient-to-r from-rose/25 to-rose/20 hover:from-rose/35 hover:to-rose/30 text-rose rounded-full text-sm transition-all shadow-md border border-rose/30"
+            >
+              + Add Video
+            </motion.button>
+          </div>
+          <input
+            ref={videoInputRef}
+            type="file"
+            accept="video/*"
+            onChange={(e) => handleFileSelect(e, 'video')}
+            className="hidden"
+          />
+          {memory?.videos && memory.videos.length > 0 && (
+            <div className="grid grid-cols-1 gap-4">
+              {memory.videos.map((video, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="relative group rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow"
+                >
+                  <video
+                    src={video}
+                    controls
+                    className="w-full rounded-xl"
+                  />
+                  <motion.button
+                    onClick={() => handleDeleteVideo(index)}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    className="absolute top-2 right-2 bg-red-500/90 hover:bg-red-600 text-white rounded-full w-7 h-7 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+                  >
+                    ×
+                  </motion.button>
+                </motion.div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </motion.div>
   )

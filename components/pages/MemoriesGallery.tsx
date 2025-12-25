@@ -48,13 +48,15 @@ export default function MemoriesGallery({ onBack }: MemoriesGalleryProps) {
           <p className="text-xl md:text-2xl text-warm-gray" style={{ fontFamily: 'var(--font-body)' }}>
             No memories yet. Redeem a moment and add photos, videos, or journal entries to remember it forever.
           </p>
-          <button
+          <motion.button
             onClick={onBack}
-            className="mt-8 px-8 py-3 bg-rose/20 hover:bg-rose/30 text-rose rounded-full transition-all duration-300 font-handwritten text-xl"
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            className="mt-8 px-8 py-3 bg-gradient-to-r from-rose/25 to-rose/20 hover:from-rose/35 hover:to-rose/30 text-rose rounded-full transition-all duration-300 font-handwritten text-xl shadow-md hover:shadow-lg border border-rose/30"
             style={{ fontFamily: 'var(--font-handwritten)' }}
           >
             ← Back to Book
-          </button>
+          </motion.button>
         </motion.div>
       </div>
     )
@@ -72,13 +74,15 @@ export default function MemoriesGallery({ onBack }: MemoriesGalleryProps) {
           <h2 className="font-serif text-4xl md:text-5xl text-rose" style={{ fontFamily: 'var(--font-serif)' }}>
             Your Memories
           </h2>
-          <button
+          <motion.button
             onClick={onBack}
-            className="px-6 py-2 bg-rose/20 hover:bg-rose/30 text-rose rounded-full transition-all duration-300 font-handwritten text-lg"
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            className="px-6 py-2.5 bg-gradient-to-r from-rose/25 to-rose/20 hover:from-rose/35 hover:to-rose/30 text-rose rounded-full transition-all duration-300 font-handwritten text-lg shadow-md hover:shadow-lg border border-rose/30"
             style={{ fontFamily: 'var(--font-handwritten)' }}
           >
             ← Back
-          </button>
+          </motion.button>
         </motion.div>
 
         {/* Memories Grid */}
@@ -90,7 +94,9 @@ export default function MemoriesGallery({ onBack }: MemoriesGalleryProps) {
                 key={memory.couponId}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-cream/50 rounded-lg p-6 space-y-4 border border-rose/20"
+                whileHover={{ y: -5, scale: 1.02 }}
+                className="bg-gradient-to-br from-cream/70 to-cream/50 rounded-2xl p-6 space-y-4 border border-rose/30 shadow-lg hover:shadow-xl transition-all cursor-pointer"
+                onClick={() => setSelectedMemory(memory.couponId)}
               >
                 {/* Coupon Title */}
                 <h3 className="font-serif text-2xl md:text-3xl text-rose" style={{ fontFamily: 'var(--font-serif)' }}>
@@ -104,7 +110,7 @@ export default function MemoriesGallery({ onBack }: MemoriesGalleryProps) {
 
                 {/* Notes */}
                 {memory.notes && (
-                  <div className="bg-cream/70 rounded p-4">
+                  <div className="bg-cream/80 rounded-xl p-4 border border-rose/20 shadow-inner">
                     <p className="text-warm-gray text-lg leading-relaxed" style={{ fontFamily: 'var(--font-body)' }}>
                       {memory.notes}
                     </p>
@@ -113,18 +119,18 @@ export default function MemoriesGallery({ onBack }: MemoriesGalleryProps) {
 
                 {/* Photos */}
                 {memory.photos && memory.photos.length > 0 && (
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-2 gap-3">
                     {memory.photos.slice(0, 4).map((photo, index) => (
-                      <img
+                      <motion.img
                         key={index}
                         src={photo}
                         alt={`Memory ${index + 1}`}
-                        className="w-full h-32 object-cover rounded-lg cursor-pointer hover:opacity-80 transition-opacity"
-                        onClick={() => setSelectedMemory(memory.couponId)}
+                        className="w-full h-36 object-cover rounded-xl shadow-md hover:shadow-lg transition-shadow"
+                        whileHover={{ scale: 1.05 }}
                       />
                     ))}
                     {memory.photos.length > 4 && (
-                      <div className="w-full h-32 bg-rose/20 rounded-lg flex items-center justify-center text-rose font-handwritten text-lg">
+                      <div className="w-full h-36 bg-gradient-to-br from-rose/20 to-blush/20 rounded-xl flex items-center justify-center text-rose font-handwritten text-lg border border-rose/30 shadow-md">
                         +{memory.photos.length - 4} more
                       </div>
                     )}
@@ -146,13 +152,15 @@ export default function MemoriesGallery({ onBack }: MemoriesGalleryProps) {
                 )}
 
                 {/* View Full Memory Button */}
-                <button
+                <motion.button
                   onClick={() => setSelectedMemory(memory.couponId)}
-                  className="w-full px-4 py-2 bg-rose/20 hover:bg-rose/30 text-rose rounded-full transition-all duration-300 font-handwritten text-lg"
+                  whileHover={{ scale: 1.02, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full px-4 py-3 bg-gradient-to-r from-rose/25 to-rose/20 hover:from-rose/35 hover:to-rose/30 text-rose rounded-full transition-all duration-300 font-handwritten text-lg shadow-md hover:shadow-lg border border-rose/30"
                   style={{ fontFamily: 'var(--font-handwritten)' }}
                 >
                   View Full Memory
-                </button>
+                </motion.button>
               </motion.div>
             )
           })}
@@ -178,16 +186,18 @@ export default function MemoriesGallery({ onBack }: MemoriesGalleryProps) {
 
               return (
                 <div className="space-y-6">
-                  <div className="flex justify-between items-start">
+                  <div className="flex justify-between items-start mb-6">
                     <h3 className="font-serif text-3xl md:text-4xl text-rose" style={{ fontFamily: 'var(--font-serif)' }}>
                       {coupon?.title || selectedMemory}
                     </h3>
-                    <button
+                    <motion.button
                       onClick={() => setSelectedMemory(null)}
-                      className="text-warm-gray hover:text-rose text-2xl"
+                      whileHover={{ scale: 1.1, rotate: 90 }}
+                      whileTap={{ scale: 0.9 }}
+                      className="text-warm-gray hover:text-rose text-3xl w-10 h-10 flex items-center justify-center rounded-full hover:bg-rose/10 transition-colors"
                     >
                       ×
-                    </button>
+                    </motion.button>
                   </div>
 
                   <p className="text-warm-gray text-lg">
@@ -195,7 +205,7 @@ export default function MemoriesGallery({ onBack }: MemoriesGalleryProps) {
                   </p>
 
                   {memory.notes && (
-                    <div className="bg-cream/70 rounded p-4">
+                    <div className="bg-cream/80 rounded-xl p-5 border border-rose/20 shadow-inner mb-6">
                       <p className="text-warm-gray text-xl leading-relaxed" style={{ fontFamily: 'var(--font-body)' }}>
                         {memory.notes}
                       </p>
@@ -203,13 +213,14 @@ export default function MemoriesGallery({ onBack }: MemoriesGalleryProps) {
                   )}
 
                   {memory.photos && memory.photos.length > 0 && (
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
                       {memory.photos.map((photo, index) => (
-                        <img
+                        <motion.img
                           key={index}
                           src={photo}
                           alt={`Photo ${index + 1}`}
-                          className="w-full h-48 object-cover rounded-lg"
+                          className="w-full h-52 object-cover rounded-xl shadow-md hover:shadow-xl transition-shadow"
+                          whileHover={{ scale: 1.05 }}
                         />
                       ))}
                     </div>

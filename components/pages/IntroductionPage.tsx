@@ -49,13 +49,15 @@ export default function IntroductionPage({ onNext, onPrevious }: IntroductionPag
           animate={{ opacity: 1 }}
           transition={{ delay: 1, duration: 0.8 }}
         >
-          <button
+          <motion.button
             onClick={onNext}
-            className="px-10 py-4 bg-rose/25 hover:bg-rose/35 text-rose rounded-full transition-all duration-300 font-handwritten text-2xl md:text-3xl font-semibold"
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.98 }}
+            className="px-10 py-4 bg-gradient-to-r from-rose/30 via-rose/25 to-rose/30 hover:from-rose/40 hover:via-rose/35 hover:to-rose/40 text-rose rounded-full transition-all duration-300 font-handwritten text-2xl md:text-3xl font-semibold shadow-lg hover:shadow-xl border border-rose/30"
             style={{ fontFamily: 'var(--font-handwritten)' }}
           >
             Turn the page →
-          </button>
+          </motion.button>
         </motion.div>
       </motion.div>
     </div>
