@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useAppStore } from '@/lib/store'
+import { useRouter } from 'next/navigation'
 import { persistence } from '@/persistence/localStorageAdapter'
 import type { Profile } from '@/types'
 import WelcomeStep from './WelcomeStep'
@@ -22,19 +23,18 @@ export default function OnboardingFlow() {
   const [petName, setPetName] = useState('')
   
   const { setCurrentUser, setCouple, addProfile, setPet, setCoins } = useAppStore()
+  const router = useRouter()
 
   const generatePairCode = () => {
     return Math.random().toString(36).substring(2, 8).toUpperCase()
   }
 
   const handleProfile1Complete = (profile: Profile) => {
-    console.log('Profile 1 complete:', profile)
     setProfile1(profile)
     setStep('profile2')
   }
 
   const handleProfile2Complete = (profile: Profile) => {
-    console.log('Profile 2 complete:', profile)
     setProfile2(profile)
     setStep('pairing')
   }
@@ -44,7 +44,6 @@ export default function OnboardingFlow() {
       // Joining existing couple
       const couple = await persistence.getCoupleByCode(code)
       if (couple) {
-        // Add profile2 to the couple
         const updatedCouple = {
           ...couple,
           partner2Id: profile2.id!,
@@ -54,7 +53,7 @@ export default function OnboardingFlow() {
         await addProfile(profile2 as Profile)
         setCurrentUser(profile2.id!)
         setCouple(updatedCouple)
-        setPairCode(couple.pairCode) // Set pairCode for pet step
+        setPairCode(couple.pairCode)
         setStep('pet')
       } else {
         alert('Couple not found. Please check the code and try again.')
@@ -84,14 +83,13 @@ export default function OnboardingFlow() {
     try {
       const { couple } = useAppStore.getState()
       if (!couple) {
-        // Fallback: try to get couple by pairCode
         if (pairCode) {
           const coupleByCode = await persistence.getCoupleByCode(pairCode)
           if (coupleByCode) {
             const pet = createPet(coupleByCode.id, petSpecies, petName)
             await persistence.savePet(pet)
             setPet(pet)
-            setCoins(100) // Starting coins
+            setCoins(100)
             setStep('complete')
             return
           }
@@ -103,7 +101,7 @@ export default function OnboardingFlow() {
       const pet = createPet(couple.id, petSpecies, petName)
       await persistence.savePet(pet)
       setPet(pet)
-      setCoins(100) // Starting coins
+      setCoins(100)
       setStep('complete')
     } catch (error) {
       console.error('Error completing pet setup:', error)
@@ -111,74 +109,71 @@ export default function OnboardingFlow() {
     }
   }
 
+  const handleComplete = () => {
+    router.push('/')
+  }
+
   return (
-    <div 
-      className="min-h-screen bg-gradient-to-br from-cream to-blush flex items-center justify-center p-4 overflow-y-auto"
-      onKeyDown={(e) => {
-        if (e.key === 'Enter') {
-          e.preventDefault()
-        }
-      }}
-    >
-      <AnimatePresence mode="wait">
-        {step === 'welcome' && (
-          <WelcomeStep key="welcome" onNext={() => setStep('profile1')} />
-        )}
-        {step === 'profile1' && (
-          <ProfileStep
-            key="profile1"
-            profileNumber={1}
-            onComplete={handleProfile1Complete}
-          />
-        )}
-        {step === 'profile2' && (
-          <ProfileStep
-            key="profile2"
-            profileNumber={2}
-            onComplete={handleProfile2Complete}
-          />
-        )}
-        {step === 'pairing' && (
-          <PairingStep
-            key="pairing"
-            pairCode={pairCode}
-            onComplete={handlePairingComplete}
-          />
-        )}
-        {step === 'pet' && (
-          <PetSelectionStep
-            key="pet"
-            onComplete={handlePetComplete}
-            petSpecies={petSpecies}
-            setPetSpecies={setPetSpecies}
-            petName={petName}
-            setPetName={setPetName}
-          />
-        )}
-        {step === 'complete' && (
-          <motion.div
-            key="complete"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            className="text-center"
-          >
-            <h1 className="text-4xl font-serif text-rose mb-4">Welcome! ✨</h1>
-            <p className="text-xl text-warm-gray mb-8">
-              Your journey together begins now.
-            </p>
-            <motion.button
-              onClick={() => window.location.reload()}
-              className="px-8 py-4 bg-rose text-white rounded-full text-lg font-serif hover:bg-muted-rose transition-colors"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      <div className="w-full max-w-md">
+        <AnimatePresence mode="wait">
+          {step === 'welcome' && (
+            <WelcomeStep key="welcome" onNext={() => setStep('profile1')} />
+          )}
+          {step === 'profile1' && (
+            <ProfileStep
+              key="profile1"
+              profileNumber={1}
+              onComplete={handleProfile1Complete}
+            />
+          )}
+          {step === 'profile2' && (
+            <ProfileStep
+              key="profile2"
+              profileNumber={2}
+              onComplete={handleProfile2Complete}
+            />
+          )}
+          {step === 'pairing' && (
+            <PairingStep
+              key="pairing"
+              pairCode={pairCode}
+              onComplete={handlePairingComplete}
+            />
+          )}
+          {step === 'pet' && (
+            <PetSelectionStep
+              key="pet"
+              onComplete={handlePetComplete}
+              petSpecies={petSpecies}
+              setPetSpecies={setPetSpecies}
+              petName={petName}
+              setPetName={setPetName}
+            />
+          )}
+          {step === 'complete' && (
+            <motion.div
+              key="complete"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="ios-card p-8 text-center"
             >
-              Enter App
-            </motion.button>
-          </motion.div>
-        )}
-      </AnimatePresence>
+              <div className="text-6xl mb-4">✨</div>
+              <h1 className="ios-text-large-title mb-2">Welcome!</h1>
+              <p className="ios-text-body text-text-secondary mb-8">
+                Your journey together begins now.
+              </p>
+              <button
+                onClick={handleComplete}
+                className="ios-button-primary w-full"
+              >
+                Get Started
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   )
 }
-

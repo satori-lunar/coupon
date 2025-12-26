@@ -2,7 +2,17 @@
 
 import { create } from 'zustand'
 import { persistence } from '@/persistence/localStorageAdapter'
-import type { Profile, Couple, Pet, AppState } from '@/types'
+import type { 
+  Profile, 
+  Couple, 
+  Pet, 
+  AppState, 
+  MoodCheckIn, 
+  ScheduledDate,
+  DailyPrompt,
+  ConversationStarter,
+  Moment,
+} from '@/types'
 
 interface AppStore extends AppState {
   // Actions
@@ -14,6 +24,11 @@ interface AppStore extends AppState {
   setCoins: (coins: number) => void
   addCoins: (amount: number) => void
   spendCoins: (amount: number) => boolean
+  addMoodCheckIn: (checkIn: MoodCheckIn) => void
+  addScheduledDate: (date: ScheduledDate) => void
+  addDailyPrompt: (prompt: DailyPrompt) => void
+  addConversationStarter: (starter: ConversationStarter) => void
+  addMoment: (moment: Moment) => void
   updateSettings: (settings: Partial<AppState['settings']>) => void
   loadAppState: () => Promise<void>
   saveAppState: () => Promise<void>
@@ -23,9 +38,16 @@ interface AppStore extends AppState {
 export const useAppStore = create<AppStore>((set, get) => ({
   profiles: {},
   coins: 0,
+  moodCheckIns: [],
+  dailyPrompts: [],
+  conversationStarters: [],
+  moments: [],
+  scheduledDates: [],
   settings: {
     fontSize: 'normal',
     notifications: true,
+    reducedMotion: false,
+    highContrast: false,
     privacy: {
       shareData: false,
       exportData: false,
@@ -80,6 +102,41 @@ export const useAppStore = create<AppStore>((set, get) => ({
     return false
   },
 
+  addMoodCheckIn: (checkIn: MoodCheckIn) => {
+    set((state) => ({
+      moodCheckIns: [...(state.moodCheckIns || []), checkIn],
+    }))
+    get().saveAppState()
+  },
+
+  addScheduledDate: (date: ScheduledDate) => {
+    set((state) => ({
+      scheduledDates: [...(state.scheduledDates || []), date],
+    }))
+    get().saveAppState()
+  },
+
+  addDailyPrompt: (prompt: DailyPrompt) => {
+    set((state) => ({
+      dailyPrompts: [...(state.dailyPrompts || []), prompt],
+    }))
+    get().saveAppState()
+  },
+
+  addConversationStarter: (starter: ConversationStarter) => {
+    set((state) => ({
+      conversationStarters: [...(state.conversationStarters || []), starter],
+    }))
+    get().saveAppState()
+  },
+
+  addMoment: (moment: Moment) => {
+    set((state) => ({
+      moments: [...(state.moments || []), moment],
+    }))
+    get().saveAppState()
+  },
+
   updateSettings: (newSettings: Partial<AppState['settings']>) => {
     set((state) => ({
       settings: { ...state.settings, ...newSettings },
@@ -90,7 +147,29 @@ export const useAppStore = create<AppStore>((set, get) => ({
   loadAppState: async () => {
     const state = await persistence.getAppState()
     if (state) {
-      set(state)
+      // Load scheduled dates separately
+      const scheduledDates = state.coupleId 
+        ? await persistence.getScheduledDates(state.coupleId)
+        : []
+      
+      set({
+        ...state,
+        moodCheckIns: state.moodCheckIns || [],
+        dailyPrompts: state.dailyPrompts || [],
+        conversationStarters: state.conversationStarters || [],
+        moments: state.moments || [],
+        scheduledDates: scheduledDates,
+        settings: {
+          fontSize: state.settings?.fontSize || 'normal',
+          notifications: state.settings?.notifications !== false,
+          reducedMotion: state.settings?.reducedMotion || false,
+          highContrast: state.settings?.highContrast || false,
+          privacy: state.settings?.privacy || {
+            shareData: false,
+            exportData: false,
+          },
+        },
+      })
     }
   },
 
@@ -103,6 +182,11 @@ export const useAppStore = create<AppStore>((set, get) => ({
       couple: state.couple,
       pet: state.pet,
       coins: state.coins,
+      moodCheckIns: state.moodCheckIns || [],
+      dailyPrompts: state.dailyPrompts || [],
+      conversationStarters: state.conversationStarters || [],
+      moments: state.moments || [],
+      scheduledDates: state.scheduledDates || [],
       settings: state.settings,
     }
     await persistence.saveAppState(appState)
@@ -116,9 +200,16 @@ export const useAppStore = create<AppStore>((set, get) => ({
       couple: undefined,
       pet: undefined,
       coins: 0,
+      moodCheckIns: [],
+      dailyPrompts: [],
+      conversationStarters: [],
+      moments: [],
+      scheduledDates: [],
       settings: {
         fontSize: 'normal',
         notifications: true,
+        reducedMotion: false,
+        highContrast: false,
         privacy: {
           shareData: false,
           exportData: false,

@@ -155,7 +155,8 @@ export interface DailyPrompt {
 export interface ScheduledDate {
   id: string
   coupleId: string
-  dateNightId: string
+  dateNightId?: string
+  title: string
   scheduledFor: string
   status: 'scheduled' | 'completed' | 'cancelled'
   notes?: string
@@ -172,6 +173,42 @@ export interface VirtualDateRoom {
   participants: string[]
 }
 
+export interface MoodCheckIn {
+  id: string
+  userId: string
+  coupleId: string
+  mood: 'connected' | 'okay' | 'distant'
+  note?: string
+  date: string
+}
+
+export interface RelationshipPulse {
+  coupleId: string
+  lastCheckIn: string
+  averageMood: number // 0-100
+  connectionStreak: number
+}
+
+export interface ConversationStarter {
+  id: string
+  question: string
+  category: 'deep' | 'gentle' | 'fun' | 'reflection'
+  used: boolean
+  usedAt?: string
+}
+
+export interface Moment {
+  id: string
+  coupleId: string
+  title: string
+  description: string
+  category: 'coupon' | 'surprise' | 'gesture'
+  from: string
+  to: string
+  createdAt: string
+  redeemedAt?: string
+}
+
 export interface AppState {
   currentUserId?: string
   coupleId?: string
@@ -179,9 +216,16 @@ export interface AppState {
   couple?: Couple
   pet?: Pet
   coins: number
+  moodCheckIns: MoodCheckIn[]
+  relationshipPulse?: RelationshipPulse
+  dailyPrompts: DailyPrompt[]
+  conversationStarters: ConversationStarter[]
+  moments: Moment[]
   settings: {
     fontSize: 'normal' | 'large'
     notifications: boolean
+    reducedMotion: boolean
+    highContrast: boolean
     privacy: {
       shareData: boolean
       exportData: boolean

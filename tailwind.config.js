@@ -8,20 +8,66 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        cream: '#F5F1E8',
-        blush: '#E8D5D0',
-        rose: '#D4A5A5',
-        'muted-rose': '#C9A8A8',
-        'warm-gray': '#6B5D5D',
-        'soft-gray': '#8B7D7D',
+        // iOS-inspired color palette
+        background: '#F9F9F9',
+        card: '#FFFFFF',
+        separator: 'rgba(0, 0, 0, 0.1)',
+        accent: {
+          DEFAULT: '#FF6B9D', // Rose/blush accent
+          light: '#FFE5ED',
+          dark: '#E85A8A',
+        },
+        text: {
+          primary: '#000000',
+          secondary: 'rgba(0, 0, 0, 0.6)',
+          tertiary: 'rgba(0, 0, 0, 0.4)',
+        },
+        // Handwritten fonts only for gifts/letters
+        handwritten: {
+          DEFAULT: '#D4A5A5',
+        },
       },
       fontFamily: {
-        'handwritten': ['"Dancing Script"', 'cursive'],
-        'serif': ['"Playfair Display"', 'serif'],
-        'body': ['"Crimson Text"', 'serif'],
+        // System font stack (SF Pro-like)
+        sans: ['-apple-system', 'BlinkMacSystemFont', 'Inter', 'system-ui', 'sans-serif'],
+        // Only for gifts/letters content
+        handwritten: ['"Dancing Script"', 'cursive'],
       },
-      backgroundImage: {
-        'paper-texture': "url(\"data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E\")",
+      fontSize: {
+        // iOS-style font sizing
+        'large-title': ['34px', { lineHeight: '41px', fontWeight: '700' }],
+        'title-1': ['28px', { lineHeight: '34px', fontWeight: '700' }],
+        'title-2': ['22px', { lineHeight: '28px', fontWeight: '700' }],
+        'title-3': ['20px', { lineHeight: '25px', fontWeight: '600' }],
+        'headline': ['17px', { lineHeight: '22px', fontWeight: '600' }],
+        'body': ['17px', { lineHeight: '22px', fontWeight: '400' }],
+        'callout': ['16px', { lineHeight: '21px', fontWeight: '400' }],
+        'subhead': ['15px', { lineHeight: '20px', fontWeight: '400' }],
+        'footnote': ['13px', { lineHeight: '18px', fontWeight: '400' }],
+        'caption-1': ['12px', { lineHeight: '16px', fontWeight: '400' }],
+        'caption-2': ['11px', { lineHeight: '13px', fontWeight: '400' }],
+      },
+      spacing: {
+        // iOS-style spacing scale
+        'safe-top': 'env(safe-area-inset-top)',
+        'safe-bottom': 'env(safe-area-inset-bottom)',
+      },
+      borderRadius: {
+        // iOS card radius
+        'card': '16px',
+        'card-lg': '20px',
+      },
+      boxShadow: {
+        // Subtle iOS shadows
+        'card': '0 2px 8px rgba(0, 0, 0, 0.08)',
+        'card-hover': '0 4px 12px rgba(0, 0, 0, 0.12)',
+      },
+      transitionDuration: {
+        // iOS motion timing
+        'ios': '200ms',
+      },
+      transitionTimingFunction: {
+        'ios': 'cubic-bezier(0.4, 0.0, 0.2, 1)',
       },
     },
   },

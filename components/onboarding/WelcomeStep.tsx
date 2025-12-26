@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { Heart } from 'lucide-react'
 
 interface WelcomeStepProps {
   onNext: () => void
@@ -12,32 +13,38 @@ export default function WelcomeStep({ onNext }: WelcomeStepProps) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className="max-w-md w-full text-center"
+      className="ios-card p-8 text-center"
     >
-      <motion.h1
+      <motion.div
         initial={{ scale: 0.9 }}
         animate={{ scale: 1 }}
-        transition={{ delay: 0.2 }}
-        className="text-5xl font-serif text-rose mb-6"
+        transition={{ delay: 0.1 }}
+        className="mb-6"
       >
-        Welcome
+        <Heart size={64} className="text-accent mx-auto" />
+      </motion.div>
+      <motion.h1
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.2 }}
+        className="ios-text-large-title mb-4"
+      >
+        Welcome to Together
       </motion.h1>
       <motion.p
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.4 }}
-        className="text-xl text-warm-gray mb-8 leading-relaxed"
+        transition={{ delay: 0.3 }}
+        className="ios-text-body text-text-secondary mb-8 leading-relaxed"
       >
-        This is a space for you and your partner to grow together, create memories, and celebrate your connection.
+        A thoughtful space for you and your partner to grow together, create memories, and celebrate your connection.
       </motion.p>
       <motion.button
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.6 }}
+        transition={{ delay: 0.4 }}
         onClick={onNext}
-        className="px-8 py-4 bg-rose text-white rounded-full text-lg font-serif hover:bg-muted-rose transition-colors"
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
+        className="ios-button-primary w-full"
       >
         Let's Begin
       </motion.button>

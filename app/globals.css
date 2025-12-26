@@ -5,66 +5,126 @@
 @layer base {
   html {
     @apply min-h-full;
+    /* Prevent iOS bounce scroll */
+    overscroll-behavior: none;
   }
   
   body {
-    @apply min-h-full;
-    font-family: var(--font-body);
-    background: linear-gradient(135deg, #FFF5F5 0%, #FFFFFF 50%, #FFF5F5 100%);
+    @apply min-h-full bg-background text-text-primary;
+    font-family: -apple-system, BlinkMacSystemFont, 'Inter', system-ui, sans-serif;
+    /* iOS-style smooth scrolling */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Prevent text selection on UI elements */
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* iOS-style button reset */
+  button {
+    @apply touch-none;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@layer components {
+  /* iOS Card Component */
+  .ios-card {
+    @apply bg-card rounded-card shadow-card;
+    /* Subtle border for depth */
+    border: 0.5px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .ios-card-interactive {
+    @apply ios-card transition-all duration-ios ease-ios;
+    @apply active:scale-[0.98] active:shadow-card;
+  }
+
+  /* iOS Separator */
+  .ios-separator {
+    @apply border-t border-separator;
+  }
+
+  /* iOS Button Styles */
+  .ios-button {
+    @apply px-6 py-3 rounded-xl font-headline;
+    @apply transition-all duration-ios ease-ios;
+    @apply active:scale-[0.97];
+  }
+
+  .ios-button-primary {
+    @apply ios-button bg-accent text-white;
+    @apply shadow-sm;
+  }
+
+  .ios-button-secondary {
+    @apply ios-button bg-card text-accent border border-accent;
+  }
+
+  /* iOS Text Styles */
+  .ios-text-large-title {
+    @apply text-large-title;
+  }
+
+  .ios-text-title-1 {
+    @apply text-title-1;
+  }
+
+  .ios-text-title-2 {
+    @apply text-title-2;
+  }
+
+  .ios-text-body {
+    @apply text-body;
+  }
+
+  .ios-text-secondary {
+    @apply text-text-secondary;
+  }
+
+  /* Safe area support for mobile */
+  .safe-area-top {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
   }
 }
 
 @layer utilities {
-  .paper-texture {
-    background-image: 
-      repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(0, 0, 0, 0.02) 2px,
-        rgba(0, 0, 0, 0.02) 4px
-      ),
-      url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+  /* Subtle fade animations */
+  .fade-in {
+    animation: fadeIn 200ms ease-out;
   }
-  
-  .card-shadow {
-    box-shadow: 
-      0 4px 6px -1px rgba(0, 0, 0, 0.1),
-      0 2px 4px -1px rgba(0, 0, 0, 0.06),
-      0 0 0 1px rgba(212, 165, 165, 0.1);
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
-  
-  .card-shadow-hover {
-    box-shadow: 
-      0 20px 25px -5px rgba(0, 0, 0, 0.1),
-      0 10px 10px -5px rgba(0, 0, 0, 0.04),
-      0 0 0 1px rgba(212, 165, 165, 0.2);
+
+  /* Slide up animation */
+  .slide-up {
+    animation: slideUp 250ms cubic-bezier(0.4, 0.0, 0.2, 1);
   }
-  
-  .gradient-rose {
-    background: linear-gradient(135deg, rgba(212, 165, 165, 0.1) 0%, rgba(232, 213, 208, 0.1) 100%);
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(10px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
   }
-  
-  .gradient-blush {
-    background: linear-gradient(135deg, rgba(232, 213, 208, 0.15) 0%, rgba(201, 168, 168, 0.15) 100%);
-  }
-  
-  .card-modern {
-    background: #FFFFFF;
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.04);
-    border-radius: 24px;
-  }
-  
-  .card-modern-hover {
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.06);
-  }
-  
-  .gradient-rose-modern {
-    background: linear-gradient(135deg, #FF6B6B 0%, #FF8C42 100%);
-  }
-  
-  .gradient-rose-soft {
-    background: linear-gradient(135deg, rgba(255, 107, 107, 0.1) 0%, rgba(255, 140, 66, 0.1) 100%);
+
+  /* Handwritten font utility (only for gifts/letters) */
+  .handwritten {
+    font-family: 'Dancing Script', cursive;
   }
 }
 
