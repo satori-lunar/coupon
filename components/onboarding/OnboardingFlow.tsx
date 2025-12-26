@@ -52,7 +52,10 @@ export default function OnboardingFlow() {
         await addProfile(profile2 as Profile)
         setCurrentUser(profile2.id!)
         setCouple(updatedCouple)
+        setPairCode(couple.pairCode) // Set pairCode for pet step
         setStep('pet')
+      } else {
+        alert('Couple not found. Please check the code and try again.')
       }
     } else {
       // Creating new couple
@@ -76,13 +79,33 @@ export default function OnboardingFlow() {
   }
 
   const handlePetComplete = async () => {
-    const couple = await persistence.getCoupleByCode(pairCode)
-    if (couple) {
+    try {
+      const { couple } = useAppStore.getState()
+      if (!couple) {
+        // Fallback: try to get couple by pairCode
+        if (pairCode) {
+          const coupleByCode = await persistence.getCoupleByCode(pairCode)
+          if (coupleByCode) {
+            const pet = createPet(coupleByCode.id, petSpecies, petName)
+            await persistence.savePet(pet)
+            setPet(pet)
+            setCoins(100) // Starting coins
+            setStep('complete')
+            return
+          }
+        }
+        alert('Error: Couple not found. Please try again.')
+        return
+      }
+      
       const pet = createPet(couple.id, petSpecies, petName)
       await persistence.savePet(pet)
       setPet(pet)
       setCoins(100) // Starting coins
       setStep('complete')
+    } catch (error) {
+      console.error('Error completing pet setup:', error)
+      alert('An error occurred. Please try again.')
     }
   }
 
