@@ -46,7 +46,7 @@
 
   /* iOS Button Styles */
   .ios-button {
-    @apply px-6 py-3 rounded-xl font-headline;
+    @apply px-6 py-3 rounded-xl font-semibold;
     @apply transition-all duration-ios ease-ios;
     @apply active:scale-[0.97];
   }
