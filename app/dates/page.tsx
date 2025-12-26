@@ -51,6 +51,7 @@ export default function DateGeneratorPage() {
       id: `date-${Date.now()}`,
       coupleId: coupleId!,
       dateNightId: date.id,
+      title: date.title,
       scheduledFor: new Date(scheduledFor).toISOString(),
       status: 'scheduled',
     }
