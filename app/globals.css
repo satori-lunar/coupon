@@ -4,11 +4,11 @@
 
 @layer base {
   html {
-    @apply h-full;
+    @apply min-h-full;
   }
   
   body {
-    @apply h-full overflow-hidden;
+    @apply min-h-full;
     font-family: var(--font-body);
     background: linear-gradient(135deg, #FFF5F5 0%, #FFFFFF 50%, #FFF5F5 100%);
   }

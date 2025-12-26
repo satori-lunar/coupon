@@ -32,8 +32,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className="h-full">
-      <body className={`${dancingScript.variable} ${playfairDisplay.variable} ${crimsonText.variable} h-full antialiased`}>
+    <html lang="en" className="min-h-full">
+      <body className={`${dancingScript.variable} ${playfairDisplay.variable} ${crimsonText.variable} min-h-full antialiased`}>
         {children}
       </body>
     </html>

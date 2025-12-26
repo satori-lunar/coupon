@@ -87,7 +87,7 @@ export default function OnboardingFlow() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-cream to-blush flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-cream to-blush flex items-center justify-center p-4 overflow-y-auto">
       <AnimatePresence mode="wait">
         {step === 'welcome' && (
           <WelcomeStep key="welcome" onNext={() => setStep('profile1')} />
