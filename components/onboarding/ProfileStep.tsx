@@ -228,23 +228,35 @@ export default function ProfileStep({ profileNumber, onComplete }: ProfileStepPr
           </div>
         </div>
 
-        <button
+        <div
           onClick={(e) => {
             e.preventDefault()
             e.stopPropagation()
+            if (!name || interests.length === 0 || isSubmitting) return
             console.log('Button clicked', { name, interests: interests.length, isSubmitting })
             handleSubmit()
-            return false
           }}
           onMouseDown={(e) => {
             e.preventDefault()
+            e.stopPropagation()
           }}
-          disabled={!name || interests.length === 0 || isSubmitting}
-          className="w-full px-8 py-4 bg-rose text-white rounded-full text-lg font-serif hover:bg-muted-rose transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          type="button"
+          role="button"
+          tabIndex={0}
+          className={`w-full px-8 py-4 bg-rose text-white rounded-full text-lg font-serif hover:bg-muted-rose transition-colors text-center cursor-pointer select-none ${
+            (!name || interests.length === 0 || isSubmitting) ? 'opacity-50 cursor-not-allowed' : ''
+          }`}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault()
+              e.stopPropagation()
+              if (name && interests.length > 0 && !isSubmitting) {
+                handleSubmit()
+              }
+            }
+          }}
         >
           {isSubmitting ? 'Processing...' : 'Continue'}
-        </button>
+        </div>
       </div>
     </motion.div>
   )
