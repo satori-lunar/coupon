@@ -86,22 +86,35 @@ export default function ProfileStep({ profileNumber, onComplete }: ProfileStepPr
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -20 }}
       className="max-w-2xl w-full bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-lg"
-      onSubmit={(e) => {
-        e.preventDefault()
-        e.stopPropagation()
-      }}
     >
       <h2 className="text-3xl font-serif text-rose mb-6 text-center">
         {profileNumber === 1 ? "Tell us about you" : "Tell us about your partner"}
       </h2>
 
-      <div className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+      <div 
+        className="space-y-6"
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault()
+            e.stopPropagation()
+            if (name && interests.length > 0 && !isSubmitting) {
+              handleSubmit()
+            }
+          }
+        }}
+      >
         <div>
           <label className="block text-warm-gray mb-2 font-serif">Name *</label>
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault()
+                e.stopPropagation()
+              }
+            }}
             className="w-full px-4 py-3 rounded-lg border border-soft-gray focus:border-rose focus:outline-none text-lg"
             placeholder="Your name"
           />
