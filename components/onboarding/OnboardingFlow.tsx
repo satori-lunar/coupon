@@ -112,7 +112,14 @@ export default function OnboardingFlow() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-cream to-blush flex items-center justify-center p-4 overflow-y-auto">
+    <div 
+      className="min-h-screen bg-gradient-to-br from-cream to-blush flex items-center justify-center p-4 overflow-y-auto"
+      onKeyDown={(e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault()
+        }
+      }}
+    >
       <AnimatePresence mode="wait">
         {step === 'welcome' && (
           <WelcomeStep key="welcome" onNext={() => setStep('profile1')} />

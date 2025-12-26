@@ -86,12 +86,16 @@ export default function ProfileStep({ profileNumber, onComplete }: ProfileStepPr
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -20 }}
       className="max-w-2xl w-full bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-lg"
+      onSubmit={(e) => {
+        e.preventDefault()
+        e.stopPropagation()
+      }}
     >
       <h2 className="text-3xl font-serif text-rose mb-6 text-center">
         {profileNumber === 1 ? "Tell us about you" : "Tell us about your partner"}
       </h2>
 
-      <div className="space-y-6">
+      <div className="space-y-6" onSubmit={(e) => e.preventDefault()}>
         <div>
           <label className="block text-warm-gray mb-2 font-serif">Name *</label>
           <input
@@ -217,6 +221,10 @@ export default function ProfileStep({ profileNumber, onComplete }: ProfileStepPr
             e.stopPropagation()
             console.log('Button clicked', { name, interests: interests.length, isSubmitting })
             handleSubmit()
+            return false
+          }}
+          onMouseDown={(e) => {
+            e.preventDefault()
           }}
           disabled={!name || interests.length === 0 || isSubmitting}
           className="w-full px-8 py-4 bg-rose text-white rounded-full text-lg font-serif hover:bg-muted-rose transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
