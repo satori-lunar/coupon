@@ -22,8 +22,8 @@ const crimsonText = Crimson_Text({
 })
 
 export const metadata: Metadata = {
-  title: 'A Book of Moments',
-  description: 'A romantic digital coupon book',
+  title: 'Couples App - A Book of Moments',
+  description: 'A romantic, playful couples relationship app with date nights, virtual gifts, and shared memories',
 }
 
 export default function RootLayout({

@@ -3,6 +3,7 @@ export interface Coupon {
   title: string
   description: string
   icon?: string
+  category?: string
 }
 
 export const coupons: Coupon[] = [
