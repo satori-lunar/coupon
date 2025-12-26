@@ -14,6 +14,7 @@ export default function ProfileStep({ profileNumber, onComplete }: ProfileStepPr
   const [pronouns, setPronouns] = useState('')
   const [interests, setInterests] = useState<string[]>([])
   const [favoriteDateTypes, setFavoriteDateTypes] = useState<string[]>([])
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [personality, setPersonality] = useState({
     introvertExtrovert: 'ambivert' as 'introvert' | 'extrovert' | 'ambivert',
     indoorsOutdoors: 'both' as 'indoors' | 'outdoors' | 'both',
@@ -47,20 +48,36 @@ export default function ProfileStep({ profileNumber, onComplete }: ProfileStepPr
   }
 
   const handleSubmit = () => {
-    if (!name || interests.length === 0) return
-
-    const profile: Profile = {
-      id: `profile-${profileNumber}-${Date.now()}`,
-      name,
-      pronouns: pronouns || undefined,
-      interests: interests.slice(0, 5),
-      favoriteDateTypes,
-      personality,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+    if (isSubmitting) return
+    
+    console.log('handleSubmit called', { name, interests: interests.length, profileNumber })
+    
+    if (!name || interests.length === 0) {
+      console.log('Validation failed', { name, interests: interests.length })
+      alert('Please enter your name and select at least one interest.')
+      return
     }
 
-    onComplete(profile)
+    setIsSubmitting(true)
+    
+    try {
+      const profile: Profile = {
+        id: `profile-${profileNumber}-${Date.now()}`,
+        name,
+        pronouns: pronouns || undefined,
+        interests: interests.slice(0, 5),
+        favoriteDateTypes,
+        personality,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      }
+
+      console.log('Calling onComplete with profile:', profile)
+      onComplete(profile)
+    } catch (error) {
+      console.error('Error in handleSubmit:', error)
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -194,15 +211,19 @@ export default function ProfileStep({ profileNumber, onComplete }: ProfileStepPr
           </div>
         </div>
 
-        <motion.button
-          onClick={handleSubmit}
-          disabled={!name || interests.length === 0}
+        <button
+          onClick={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+            console.log('Button clicked', { name, interests: interests.length, isSubmitting })
+            handleSubmit()
+          }}
+          disabled={!name || interests.length === 0 || isSubmitting}
           className="w-full px-8 py-4 bg-rose text-white rounded-full text-lg font-serif hover:bg-muted-rose transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          whileHover={{ scale: name && interests.length > 0 ? 1.02 : 1 }}
-          whileTap={{ scale: name && interests.length > 0 ? 0.98 : 1 }}
+          type="button"
         >
-          Continue
-        </motion.button>
+          {isSubmitting ? 'Processing...' : 'Continue'}
+        </button>
       </div>
     </motion.div>
   )

@@ -28,11 +28,13 @@ export default function OnboardingFlow() {
   }
 
   const handleProfile1Complete = (profile: Profile) => {
+    console.log('Profile 1 complete:', profile)
     setProfile1(profile)
     setStep('profile2')
   }
 
   const handleProfile2Complete = (profile: Profile) => {
+    console.log('Profile 2 complete:', profile)
     setProfile2(profile)
     setStep('pairing')
   }
