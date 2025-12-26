@@ -2,12 +2,12 @@
 
 import { create } from 'zustand'
 import { persistence } from '@/persistence/localStorageAdapter'
-import type { 
-  Profile, 
-  Couple, 
-  Pet, 
-  AppState, 
-  MoodCheckIn, 
+import type {
+  Profile,
+  Couple,
+  Pet,
+  AppState,
+  MoodCheckIn,
   ScheduledDate,
   DailyPrompt,
   ConversationStarter,
@@ -15,6 +15,7 @@ import type {
 } from '@/types'
 
 interface AppStore extends AppState {
+  scheduledDates: ScheduledDate[]
   // Actions
   setCurrentUser: (userId: string) => void
   setCouple: (couple: Couple) => void
@@ -34,6 +35,24 @@ interface AppStore extends AppState {
   saveAppState: () => Promise<void>
   reset: () => void
 }
+
+// #region agent log
+const debugLog = (message: string, data?: any) => {
+  fetch('http://127.0.0.1:7243/ingest/912c6434-26d4-4c9b-8fff-30fd2a520eba', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      location: 'lib/store.ts',
+      message,
+      data,
+      timestamp: Date.now(),
+      sessionId: 'debug-session',
+      runId: 'initial',
+      hypothesisId: 'A'
+    })
+  }).catch(() => {});
+};
+// #endregion
 
 export const useAppStore = create<AppStore>((set, get) => ({
   profiles: {},

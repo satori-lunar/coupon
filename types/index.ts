@@ -221,6 +221,7 @@ export interface AppState {
   dailyPrompts: DailyPrompt[]
   conversationStarters: ConversationStarter[]
   moments: Moment[]
+  scheduledDates: ScheduledDate[]
   settings: {
     fontSize: 'normal' | 'large'
     notifications: boolean
