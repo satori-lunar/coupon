@@ -36,23 +36,6 @@ interface AppStore extends AppState {
   reset: () => void
 }
 
-// #region agent log
-const debugLog = (message: string, data?: any) => {
-  fetch('http://127.0.0.1:7243/ingest/912c6434-26d4-4c9b-8fff-30fd2a520eba', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      location: 'lib/store.ts',
-      message,
-      data,
-      timestamp: Date.now(),
-      sessionId: 'debug-session',
-      runId: 'initial',
-      hypothesisId: 'A'
-    })
-  }).catch(() => {});
-};
-// #endregion
 
 export const useAppStore = create<AppStore>((set, get) => ({
   profiles: {},
@@ -61,6 +44,7 @@ export const useAppStore = create<AppStore>((set, get) => ({
   dailyPrompts: [],
   conversationStarters: [],
   moments: [],
+  scheduledDates: [],
   settings: {
     fontSize: 'normal',
     notifications: true,
@@ -71,7 +55,6 @@ export const useAppStore = create<AppStore>((set, get) => ({
       exportData: false,
     },
   },
-  scheduledDates: [],
 
   setCurrentUser: (userId: string) => {
     set({ currentUserId: userId })

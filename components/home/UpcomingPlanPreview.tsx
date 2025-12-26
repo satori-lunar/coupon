@@ -5,7 +5,7 @@ import { Calendar } from 'lucide-react'
 import { format } from 'date-fns'
 
 export default function UpcomingPlanPreview() {
-  const { scheduledDates } = useAppStore()
+  const { scheduledDates } = useAppStore();
 
   // Get next scheduled date
   const upcomingDates = scheduledDates?.filter(
