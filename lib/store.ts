@@ -42,7 +42,6 @@ export const useAppStore = create<AppStore>((set, get) => ({
   dailyPrompts: [],
   conversationStarters: [],
   moments: [],
-  scheduledDates: [],
   settings: {
     fontSize: 'normal',
     notifications: true,
@@ -53,6 +52,7 @@ export const useAppStore = create<AppStore>((set, get) => ({
       exportData: false,
     },
   },
+  scheduledDates: [],
 
   setCurrentUser: (userId: string) => {
     set({ currentUserId: userId })
@@ -186,8 +186,8 @@ export const useAppStore = create<AppStore>((set, get) => ({
       dailyPrompts: state.dailyPrompts || [],
       conversationStarters: state.conversationStarters || [],
       moments: state.moments || [],
-      scheduledDates: state.scheduledDates || [],
       settings: state.settings,
+      scheduledDates: state.scheduledDates || [],
     }
     await persistence.saveAppState(appState)
   },
@@ -204,7 +204,6 @@ export const useAppStore = create<AppStore>((set, get) => ({
       dailyPrompts: [],
       conversationStarters: [],
       moments: [],
-      scheduledDates: [],
       settings: {
         fontSize: 'normal',
         notifications: true,
@@ -215,6 +214,7 @@ export const useAppStore = create<AppStore>((set, get) => ({
           exportData: false,
         },
       },
+      scheduledDates: [],
     })
   },
 }))
