@@ -188,7 +188,18 @@ export default function ProfileStep({ profileNumber, onComplete }: ProfileStepPr
         {profileNumber === 1 ? "Tell us about you" : "Tell us about your partner"}
       </h2>
 
-      <div className="space-y-6">
+      <div 
+        className="space-y-6"
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault()
+            e.stopPropagation()
+            if (name && interests.length > 0 && !isSubmitting) {
+              handleComplete\(\)
+            }
+          }
+        }}
+      >
         <div>
           <label className="block text-warm-gray mb-2 font-serif">Name *</label>
           <input
@@ -336,7 +347,7 @@ export default function ProfileStep({ profileNumber, onComplete }: ProfileStepPr
               e.preventDefault()
               e.stopPropagation()
               if (name && interests.length > 0 && !isSubmitting) {
-                handleComplete()
+                handleComplete\(\)
               }
             }
           }}
