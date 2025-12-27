@@ -18,7 +18,7 @@ export default function RootPage() {
       setIsLoading(false)
     }
     checkOnboarding()
-  }, [loadAppStore])
+  }, [loadAppState])
 
   if (isLoading) {
     return (
