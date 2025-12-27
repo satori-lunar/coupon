@@ -139,7 +139,7 @@ function checkAccessibility(
                           description.includes('sports') ||
                           description.includes('dance') ||
                           description.includes('walking') ||
-                          description.tags.pace === 'adventurous'
+                          date.tags?.pace === 'adventurous'
 
   if (requiresPhysical && mobilityIssues.length > 0) {
     const hasWheelchair = mobilityIssues.some(p => p.mobilityLevel === 'wheelchair')
@@ -183,8 +183,8 @@ function checkTriggers(date: DateNight, profile1: Profile, profile2: Profile): b
     date.title,
     date.description,
     date.longDescription,
-    ...date.steps,
-    ...date.prompts
+    ...(date.steps || []),
+    ...(date.prompts || [])
   ].join(' ').toLowerCase()
 
   return !allTriggers.concat(allSensitivities).some(avoided =>
