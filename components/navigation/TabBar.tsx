@@ -2,11 +2,11 @@
 
 import { usePathname, useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { Home, Heart, Calendar, Gamepad2, MoreHorizontal } from 'lucide-react'
+import { Home, MessageCircle, Calendar, Gamepad2, MoreHorizontal } from 'lucide-react'
 
 const tabs = [
   { id: 'home', label: 'Home', icon: Home, path: '/' },
-  { id: 'connect', label: 'Connect', icon: Heart, path: '/connect' },
+  { id: 'connect', label: 'Connect', icon: MessageCircle, path: '/connect' },
   { id: 'dates', label: 'Dates', icon: Calendar, path: '/dates' },
   { id: 'play', label: 'Play', icon: Gamepad2, path: '/play' },
   { id: 'more', label: 'More', icon: MoreHorizontal, path: '/more' },

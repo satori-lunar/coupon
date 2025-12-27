@@ -21,11 +21,6 @@ export default function RootPage() {
   useEffect(() => {
     const checkOnboarding = async () => {
       await loadAppState()
-      const state = await persistence.getAppState()
-      
-      if (!state || !state.coupleId) {
-        setNeedsOnboarding(true)
-      }
       setIsLoading(false)
     }
 
@@ -40,11 +35,7 @@ export default function RootPage() {
     )
   }
 
-  if (needsOnboarding || !coupleId) {
-    return <OnboardingFlow />
-  }
-
-  // Render home tab if we have a couple
+  // Skip onboarding - go straight to app
   const currentUser = currentUserId ? profiles[currentUserId] : null
   const userName = currentUser?.name || 'there'
 
