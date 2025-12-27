@@ -188,17 +188,14 @@ export default function ProfileStep({ profileNumber, onComplete }: ProfileStepPr
         {profileNumber === 1 ? "Tell us about you" : "Tell us about your partner"}
       </h2>
 
-      <div 
-        className="space-y-6"
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            e.preventDefault()
-            e.stopPropagation()
-            if (name && interests.length > 0 && !isSubmitting) {
-              handleComplete()
-            }
+      <form
+        onSubmit={(e) => {
+          e.preventDefault()
+          if (name && interests.length > 0 && !isSubmitting) {
+            handleComplete()
           }
         }}
+        className="space-y-6"
       >
         <div>
           <label className="block text-warm-gray mb-2 font-serif">Name *</label>
@@ -206,14 +203,9 @@ export default function ProfileStep({ profileNumber, onComplete }: ProfileStepPr
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                e.preventDefault()
-                e.stopPropagation()
-              }
-            }}
-            className="w-full px-4 py-3 rounded-lg border border-soft-gray focus:border-rose focus:outline-none text-lg"
+            className="w-full px-4 py-3 rounded-lg border border-soft-gray focus:border-rose focus:outline-none text-lg transition-colors"
             placeholder="Your name"
+            required
           />
         </div>
 
@@ -325,36 +317,16 @@ export default function ProfileStep({ profileNumber, onComplete }: ProfileStepPr
           </div>
         </div>
 
-        <div
-          onClick={(e) => {
-            e.preventDefault()
-            e.stopPropagation()
-            if (!name || interests.length === 0 || isSubmitting) return
-            console.log('Button clicked', { name, interests: interests.length, isSubmitting })
-            handleComplete()
-          }}
-          onMouseDown={(e) => {
-            e.preventDefault()
-            e.stopPropagation()
-          }}
-          role="button"
-          tabIndex={0}
-          className={`w-full px-8 py-4 bg-rose text-white rounded-full text-lg font-serif hover:bg-muted-rose transition-colors text-center cursor-pointer select-none ${
+        <button
+          type="submit"
+          disabled={!name || interests.length === 0 || isSubmitting}
+          className={`w-full px-8 py-4 bg-rose text-white rounded-full text-lg font-serif hover:bg-muted-rose transition-all shadow-md hover:shadow-lg active:scale-95 ${
             (!name || interests.length === 0 || isSubmitting) ? 'opacity-50 cursor-not-allowed' : ''
           }`}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault()
-              e.stopPropagation()
-              if (name && interests.length > 0 && !isSubmitting) {
-                handleComplete()
-              }
-            }
-          }}
         >
-          {isSubmitting ? 'Processing...' : 'Continue'}
-        </div>
-      </div>
+          {isSubmitting ? 'Processing...' : 'Continue →'}
+        </button>
+      </form>
     </motion.div>
   )
 }
