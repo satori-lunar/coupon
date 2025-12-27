@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useAppStore } from '@/lib/store'
 import { Calendar, MapPin, Video } from 'lucide-react'
+import type { DateNight } from '@/types'
 
 interface DateCardProps {
   date: DateNight
