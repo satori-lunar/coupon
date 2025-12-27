@@ -28,6 +28,7 @@ interface AppStore extends AppState {
   addMoodCheckIn: (checkIn: MoodCheckIn) => void
   addScheduledDate: (date: ScheduledDate) => void
   addDailyPrompt: (prompt: DailyPrompt) => void
+  addDailyPromptResponse: (date: string, question: string, userId: string, response: string) => Promise<void>
   addConversationStarter: (starter: ConversationStarter) => void
   addMoment: (moment: Moment) => void
   updateSettings: (settings: Partial<AppState['settings']>) => void
@@ -123,6 +124,37 @@ export const useAppStore = create<AppStore>((set, get) => ({
       dailyPrompts: [...(state.dailyPrompts || []), prompt],
     }))
     get().saveAppState()
+  },
+
+  addDailyPromptResponse: async (date: string, question: string, userId: string, response: string) => {
+    set((state) => {
+      const existingPrompts = state.dailyPrompts || []
+      const existingPromptIndex = existingPrompts.findIndex(p => p.date === date)
+
+      if (existingPromptIndex >= 0) {
+        // Update existing prompt with new response
+        const updatedPrompts = [...existingPrompts]
+        updatedPrompts[existingPromptIndex] = {
+          ...updatedPrompts[existingPromptIndex],
+          responses: {
+            ...updatedPrompts[existingPromptIndex].responses,
+            [userId]: response,
+          },
+        }
+        return { dailyPrompts: updatedPrompts }
+      } else {
+        // Create new prompt with response
+        const newPrompt: DailyPrompt = {
+          id: `prompt-${date}-${Date.now()}`,
+          question,
+          category: 'daily',
+          date,
+          responses: { [userId]: response },
+        }
+        return { dailyPrompts: [...existingPrompts, newPrompt] }
+      }
+    })
+    await get().saveAppState()
   },
 
   addConversationStarter: (starter: ConversationStarter) => {
