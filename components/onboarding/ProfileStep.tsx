@@ -320,7 +320,7 @@ export default function ProfileStep({ profileNumber, onComplete }: ProfileStepPr
             e.stopPropagation()
             if (!name || interests.length === 0 || isSubmitting) return
             console.log('Button clicked', { name, interests: interests.length, isSubmitting })
-            handleSubmit()
+            handleComplete\(\)
           }}
           onMouseDown={(e) => {
             e.preventDefault()
