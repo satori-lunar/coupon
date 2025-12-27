@@ -139,7 +139,7 @@ function checkAccessibility(
                           description.includes('sports') ||
                           description.includes('dance') ||
                           description.includes('walking') ||
-                          description.tags.pace === 'adventurous'
+                          date.tags?.pace === 'adventurous'
 
   if (requiresPhysical && mobilityIssues.length > 0) {
     const hasWheelchair = mobilityIssues.some(p => p.mobilityLevel === 'wheelchair')
