@@ -1,185 +1,156 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useAppStore } from '@/lib/store'
-import { persistence } from '@/persistence/localStorageAdapter'
-import { generateDateSuggestions } from '@/lib/dateGenerator'
-import { recordActivity } from '@/lib/petSystem'
-import { awardCoins, COIN_REWARDS } from '@/lib/coins'
-import { updateStreak } from '@/lib/streaks'
-import type { Profile, DateNight, ScheduledDate } from '@/types'
-import Link from 'next/link'
+import { generatePersonalizedDates } from '@/lib/dateTemplates'
+import AppLayout from '@/components/navigation/AppLayout'
+import DateGeneratorInput from '@/components/dates/DateGeneratorInput'
+import GeneratedDateCard from '@/components/dates/GeneratedDateCard'
+import type { DateGeneratorInput as GeneratorInput, GeneratedDate, SavedDate } from '@/types'
+import { Bookmark, Sparkles } from 'lucide-react'
 
-export default function DateGeneratorPage() {
-  const { coupleId, profiles, pet } = useAppStore()
-  const [suggestions, setSuggestions] = useState<any[]>([])
-  const [loading, setLoading] = useState(false)
-  const [selectedDate, setSelectedDate] = useState<any>(null)
+export default function DatesPage() {
+  const { profiles, savedDates, lastGeneratedDates, setLastGeneratedDates } = useAppStore()
+  const [isGenerating, setIsGenerating] = useState(false)
+  const [showGenerator, setShowGenerator] = useState(true)
 
-  useEffect(() => {
-    if (coupleId && Object.keys(profiles).length >= 2) {
-      loadSuggestions()
-    }
-  }, [coupleId, profiles])
+  const profileIds = Object.keys(profiles)
+  const hasProfiles = profileIds.length >= 2
 
-  const loadSuggestions = async () => {
-    setLoading(true)
-    const profileIds = Object.keys(profiles)
-    if (profileIds.length < 2 || !coupleId) return
+  const handleGenerate = async (input: GeneratorInput) => {
+    if (!hasProfiles) return
+
+    setIsGenerating(true)
+
+    // Simulate generation delay for better UX
+    await new Promise((resolve) => setTimeout(resolve, 1500))
 
     const profile1 = profiles[profileIds[0]]
     const profile2 = profiles[profileIds[1]]
 
-    // Get recently used dates
-    const scheduledDates = await persistence.getScheduledDates(coupleId)
-    const recentlyUsed = scheduledDates
-      .filter(d => d.status === 'completed')
-      .slice(-14)
-      .map(d => d.dateNightId)
+    // Get recently used template IDs
+    const recentlyUsedIds = (savedDates || [])
+      .filter((d) => {
+        const savedDate = new Date(d.savedAt)
+        const daysSince = (Date.now() - savedDate.getTime()) / (1000 * 60 * 60 * 24)
+        return daysSince < 14 // Last 2 weeks
+      })
+      .map((d) => d.templateId)
 
-    const dateSuggestions = await generateDateSuggestions(profile1, profile2, recentlyUsed)
-    setSuggestions(dateSuggestions)
-    setLoading(false)
+    const generatedDates = generatePersonalizedDates(input, profile1, profile2, recentlyUsedIds)
+
+    setLastGeneratedDates(generatedDates)
+    setIsGenerating(false)
+    setShowGenerator(false)
   }
 
-  const handleScheduleDate = async (date: DateNight) => {
-    const scheduledFor = prompt('Enter date (YYYY-MM-DD):')
-    if (!scheduledFor) return
-
-    const scheduledDate: ScheduledDate = {
-      id: `date-${Date.now()}`,
-      coupleId: coupleId!,
-      dateNightId: date.id,
-      title: date.title,
-      scheduledFor: new Date(scheduledFor).toISOString(),
-      status: 'scheduled',
-    }
-
-    await persistence.saveScheduledDate(scheduledDate)
-    alert('Date scheduled!')
-  }
-
-  const handleCompleteDate = async (date: DateNight) => {
-    if (!pet || !coupleId) return
-
-    // Record activity
-    await recordActivity(pet, 'date')
-    
-    // Award coins
-    await awardCoins(coupleId, COIN_REWARDS.COMPLETE_DATE, 'Completed date')
-    
-    // Update streak
-    await updateStreak(coupleId, 'dates')
-
-    alert('Date completed! Your pet is happy and you earned coins!')
-  }
-
-  if (!coupleId) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-cream to-blush flex items-center justify-center">
-        <Link href="/" className="text-rose text-xl font-serif">
-          Please complete onboarding first
-        </Link>
-      </div>
-    )
+  const handleSave = (savedDate: SavedDate) => {
+    console.log('Date saved:', savedDate.title)
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-cream to-blush p-4 pb-24">
-      <div className="max-w-4xl mx-auto">
-        <Link href="/" className="text-rose mb-4 inline-block font-serif">
-          ← Back to Dashboard
-        </Link>
+    <AppLayout>
+      <div className="pb-24 px-4 pt-8 max-w-2xl mx-auto">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-6"
+        >
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Date Ideas</h1>
+          <p className="text-gray-600">Personalized dates designed just for you two</p>
+        </motion.div>
 
-        <h1 className="text-4xl font-serif text-rose mb-8">Date Night Generator 💕</h1>
+        {/* Saved Dates Summary */}
+        {(savedDates?.length || 0) > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-purple-50 border border-purple-100 rounded-2xl p-4 mb-6 flex items-center gap-3"
+          >
+            <Bookmark className="w-5 h-5 text-purple-600 flex-shrink-0" />
+            <div className="flex-1">
+              <p className="text-sm font-semibold text-purple-900">
+                {savedDates?.length || 0} saved {(savedDates?.length || 0) === 1 ? 'date' : 'dates'}
+              </p>
+              <p className="text-xs text-purple-700">Access your saved dates anytime</p>
+            </div>
+          </motion.div>
+        )}
 
-        {loading ? (
-          <div className="text-center text-warm-gray">Generating perfect dates...</div>
-        ) : (
-          <div className="space-y-6">
-            {suggestions.map((suggestion, index) => (
-              <motion.div
-                key={suggestion.date.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-md"
-              >
-                <h2 className="text-2xl font-serif text-rose mb-2">{suggestion.date.title}</h2>
-                <p className="text-warm-gray mb-4">{suggestion.date.description}</p>
-
-                {suggestion.reasons.length > 0 && (
-                  <div className="bg-cream rounded-lg p-4 mb-4">
-                    <p className="text-sm font-semibold text-soft-gray mb-2">Why this date?</p>
-                    <ul className="list-disc list-inside text-sm text-warm-gray space-y-1">
-                      {suggestion.reasons.map((reason: string, i: number) => (
-                        <li key={i}>{reason}</li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-                {selectedDate?.id === suggestion.date.id ? (
-                  <div className="space-y-4 mt-4">
-                    <div>
-                      <h3 className="font-serif text-rose mb-2">Steps:</h3>
-                      <ol className="list-decimal list-inside text-warm-gray space-y-1">
-                        {suggestion.date.steps.map((step: string, i: number) => (
-                          <li key={i}>{step}</li>
-                        ))}
-                      </ol>
-                    </div>
-
-                    {suggestion.date.shoppingList && (
-                      <div>
-                        <h3 className="font-serif text-rose mb-2">Shopping List:</h3>
-                        <ul className="list-disc list-inside text-warm-gray">
-                          {suggestion.date.shoppingList.map((item: string, i: number) => (
-                            <li key={i}>{item}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-
-                    <div className="flex gap-3">
-                      <button
-                        onClick={() => handleScheduleDate(suggestion.date)}
-                        className="px-6 py-3 bg-rose text-white rounded-full font-serif hover:bg-muted-rose transition-colors"
-                      >
-                        Schedule
-                      </button>
-                      <button
-                        onClick={() => handleCompleteDate(suggestion.date)}
-                        className="px-6 py-3 bg-muted-rose text-white rounded-full font-serif hover:bg-rose transition-colors"
-                      >
-                        Mark Complete
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  <button
-                    onClick={() => setSelectedDate(selectedDate?.id === suggestion.date.id ? null : suggestion.date)}
-                    className="px-6 py-3 bg-rose text-white rounded-full font-serif hover:bg-muted-rose transition-colors"
-                  >
-                    View Details
-                  </button>
-                )}
-              </motion.div>
-            ))}
-
-            <motion.button
-              onClick={loadSuggestions}
-              className="w-full px-8 py-4 bg-muted-rose text-white rounded-full text-lg font-serif hover:bg-rose transition-colors"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+        {/* Generator Input */}
+        <AnimatePresence mode="wait">
+          {showGenerator ? (
+            <motion.div
+              key="generator"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
             >
-              Generate New Dates
-            </motion.button>
+              <DateGeneratorInput onGenerate={handleGenerate} isLoading={isGenerating} />
+            </motion.div>
+          ) : (
+            <motion.div
+              key="results"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="space-y-6"
+            >
+              {/* Results Header */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="w-5 h-5 text-purple-600" />
+                  <h2 className="text-xl font-bold text-gray-900">Your Personalized Dates</h2>
+                </div>
+                <button
+                  onClick={() => setShowGenerator(true)}
+                  className="text-purple-600 text-sm font-semibold hover:text-purple-700 transition-colors"
+                >
+                  Generate New
+                </button>
+              </div>
+
+              {/* Generated Date Cards */}
+              <div className="space-y-6">
+                {(lastGeneratedDates || []).map((date, index) => (
+                  <motion.div
+                    key={date.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.15 }}
+                  >
+                    <GeneratedDateCard date={date} onSave={handleSave} />
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Generate More Button */}
+              <motion.button
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+                onClick={() => setShowGenerator(true)}
+                className="w-full py-4 rounded-2xl text-purple-600 bg-purple-50 hover:bg-purple-100 font-semibold text-sm transition-colors active:scale-[0.98]"
+              >
+                Try Different Preferences
+              </motion.button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Empty State */}
+        {!hasProfiles && (
+          <div className="text-center py-12">
+            <p className="text-gray-600 mb-4">Complete your profiles to get started</p>
+            <button className="text-purple-600 font-semibold hover:text-purple-700">
+              Set Up Profiles →
+            </button>
           </div>
         )}
       </div>
-    </div>
+    </AppLayout>
   )
 }
 

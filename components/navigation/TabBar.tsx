@@ -35,13 +35,13 @@ export default function TabBar() {
                 <Icon
                   size={24}
                   className={`transition-colors duration-ios ${
-                    isActive ? 'text-accent' : 'text-text-tertiary'
+                    isActive ? 'text-purple-600' : 'text-gray-400'
                   }`}
                 />
                 {isActive && (
                   <motion.div
                     layoutId="activeTab"
-                    className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-accent"
+                    className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-purple-600"
                     initial={false}
                     transition={{
                       type: 'spring',
@@ -53,7 +53,7 @@ export default function TabBar() {
               </div>
               <span
                 className={`text-caption-2 mt-0.5 transition-colors duration-ios ${
-                  isActive ? 'text-accent font-medium' : 'text-text-tertiary'
+                  isActive ? 'text-purple-600 font-semibold' : 'text-gray-400'
                 }`}
               >
                 {tab.label}

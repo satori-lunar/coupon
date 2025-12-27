@@ -12,6 +12,11 @@ import type {
   DailyPrompt,
   ConversationStarter,
   Moment,
+  SavedDate,
+  AdventureBookEntry,
+  GeneratedDate,
+  OnboardingProgress,
+  DateGeneratorInput,
 } from '@/types'
 
 interface AppStore extends AppState {
@@ -31,6 +36,13 @@ interface AppStore extends AppState {
   addDailyPromptResponse: (date: string, question: string, userId: string, response: string) => Promise<void>
   addConversationStarter: (starter: ConversationStarter) => void
   addMoment: (moment: Moment) => void
+  // New actions for enhanced features
+  saveDate: (date: SavedDate) => void
+  updateSavedDate: (id: string, updates: Partial<SavedDate>) => void
+  addAdventureBookEntry: (entry: AdventureBookEntry) => void
+  setLastGeneratedDates: (dates: GeneratedDate[]) => void
+  updateOnboarding: (progress: OnboardingProgress) => void
+  completeOnboarding: () => void
   updateSettings: (settings: Partial<AppState['settings']>) => void
   loadAppState: () => Promise<void>
   saveAppState: () => Promise<void>
@@ -46,6 +58,9 @@ export const useAppStore = create<AppStore>((set, get) => ({
   conversationStarters: [],
   moments: [],
   scheduledDates: [],
+  savedDates: [],
+  adventureBook: [],
+  lastGeneratedDates: [],
   settings: {
     fontSize: 'normal',
     notifications: true,
@@ -171,6 +186,47 @@ export const useAppStore = create<AppStore>((set, get) => ({
     get().saveAppState()
   },
 
+  // New action implementations
+  saveDate: (date: SavedDate) => {
+    set((state) => ({
+      savedDates: [...(state.savedDates || []), date],
+    }))
+    get().saveAppState()
+  },
+
+  updateSavedDate: (id: string, updates: Partial<SavedDate>) => {
+    set((state) => ({
+      savedDates: (state.savedDates || []).map((date) =>
+        date.id === id ? { ...date, ...updates } : date
+      ),
+    }))
+    get().saveAppState()
+  },
+
+  addAdventureBookEntry: (entry: AdventureBookEntry) => {
+    set((state) => ({
+      adventureBook: [...(state.adventureBook || []), entry],
+    }))
+    get().saveAppState()
+  },
+
+  setLastGeneratedDates: (dates: GeneratedDate[]) => {
+    set({ lastGeneratedDates: dates })
+    get().saveAppState()
+  },
+
+  updateOnboarding: (progress: OnboardingProgress) => {
+    set({ onboarding: progress })
+    get().saveAppState()
+  },
+
+  completeOnboarding: () => {
+    set((state) => ({
+      onboarding: state.onboarding ? { ...state.onboarding, completed: true } : undefined,
+    }))
+    get().saveAppState()
+  },
+
   updateSettings: (newSettings: Partial<AppState['settings']>) => {
     set((state) => ({
       settings: { ...state.settings, ...newSettings },
@@ -182,10 +238,10 @@ export const useAppStore = create<AppStore>((set, get) => ({
     const state = await persistence.getAppState()
     if (state) {
       // Load scheduled dates separately
-      const scheduledDates = state.coupleId 
+      const scheduledDates = state.coupleId
         ? await persistence.getScheduledDates(state.coupleId)
         : []
-      
+
       set({
         ...state,
         moodCheckIns: state.moodCheckIns || [],
@@ -193,6 +249,10 @@ export const useAppStore = create<AppStore>((set, get) => ({
         conversationStarters: state.conversationStarters || [],
         moments: state.moments || [],
         scheduledDates: scheduledDates,
+        savedDates: state.savedDates || [],
+        adventureBook: state.adventureBook || [],
+        lastGeneratedDates: state.lastGeneratedDates || [],
+        onboarding: state.onboarding,
         settings: {
           fontSize: state.settings?.fontSize || 'normal',
           notifications: state.settings?.notifications !== false,
@@ -222,6 +282,10 @@ export const useAppStore = create<AppStore>((set, get) => ({
       moments: state.moments || [],
       settings: state.settings,
       scheduledDates: state.scheduledDates || [],
+      savedDates: state.savedDates || [],
+      adventureBook: state.adventureBook || [],
+      lastGeneratedDates: state.lastGeneratedDates,
+      onboarding: state.onboarding,
     }
     await persistence.saveAppState(appState)
   },
@@ -238,6 +302,11 @@ export const useAppStore = create<AppStore>((set, get) => ({
       dailyPrompts: [],
       conversationStarters: [],
       moments: [],
+      scheduledDates: [],
+      savedDates: [],
+      adventureBook: [],
+      lastGeneratedDates: [],
+      onboarding: undefined,
       settings: {
         fontSize: 'normal',
         notifications: true,
@@ -248,7 +317,6 @@ export const useAppStore = create<AppStore>((set, get) => ({
           exportData: false,
         },
       },
-      scheduledDates: [],
     })
   },
 }))
