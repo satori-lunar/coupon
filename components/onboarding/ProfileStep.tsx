@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import type { Profile } from '@/types'
+import { Heart, Users, MapPin, Shield, DollarSign } from 'lucide-react'
 
 interface ProfileStepProps {
   profileNumber: 1 | 2
@@ -10,17 +11,64 @@ interface ProfileStepProps {
 }
 
 export default function ProfileStep({ profileNumber, onComplete }: ProfileStepProps) {
+  const [currentSection, setCurrentSection] = useState(0)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  // Basic Info
   const [name, setName] = useState('')
   const [pronouns, setPronouns] = useState('')
+
+  // Interests & Preferences
   const [interests, setInterests] = useState<string[]>([])
   const [favoriteDateTypes, setFavoriteDateTypes] = useState<string[]>([])
-  const [isSubmitting, setIsSubmitting] = useState(false)
   const [personality, setPersonality] = useState({
     introvertExtrovert: 'ambivert' as 'introvert' | 'extrovert' | 'ambivert',
     indoorsOutdoors: 'both' as 'indoors' | 'outdoors' | 'both',
     budget: 'medium' as 'low' | 'medium' | 'high',
     pace: 'balanced' as 'relaxed' | 'adventurous' | 'balanced',
   })
+
+  // Love Languages (1-5 scale)
+  const [loveLanguages, setLoveLanguages] = useState({
+    wordsOfAffirmation: 3,
+    qualityTime: 3,
+    receivingGifts: 3,
+    actsOfService: 3,
+    physicalTouch: 3,
+  })
+
+  // Relationship Insights
+  const [triggers, setTriggers] = useState<string[]>([])
+  const [sensitivities, setSensitivities] = useState<string[]>([])
+  const [issues, setIssues] = useState<string[]>([])
+  const [hopes, setHopes] = useState<string[]>([])
+  const [goals, setGoals] = useState<string[]>([])
+
+  // Practical Details
+  const [location, setLocation] = useState({ city: '', country: '' })
+  const [isLongDistance, setIsLongDistance] = useState(false)
+
+  // Accessibility & Preferences
+  const [socialAbility, setSocialAbility] = useState<'very-shy' | 'shy' | 'moderate' | 'outgoing' | 'very-outgoing'>('moderate')
+  const [disabilities, setDisabilities] = useState<string[]>([])
+  const [mobilityLevel, setMobilityLevel] = useState<'full' | 'limited' | 'wheelchair' | 'other'>('full')
+
+  // Enhanced Budget
+  const [budget, setBudget] = useState({
+    low: 25,
+    medium: 75,
+    high: 150,
+  })
+
+  const sections = [
+    { id: 'basic', title: 'Basic Info', icon: Users },
+    { id: 'preferences', title: 'Interests & Preferences', icon: Heart },
+    { id: 'love-languages', title: 'Love Languages', icon: Heart },
+    { id: 'insights', title: 'Relationship Insights', icon: Shield },
+    { id: 'practical', title: 'Location & Distance', icon: MapPin },
+    { id: 'accessibility', title: 'Accessibility', icon: Shield },
+    { id: 'budget', title: 'Budget Preferences', icon: DollarSign },
+  ]
 
   const availableInterests = [
     'art', 'music', 'cooking', 'reading', 'movies', 'games', 'nature',
@@ -29,6 +77,21 @@ export default function ProfileStep({ profileNumber, onComplete }: ProfileStepPr
 
   const availableDateTypes = [
     'creative', 'cozy', 'adventure', 'romantic', 'playful',
+  ]
+
+  const commonTriggers = [
+    'loud noises', 'crowds', 'public speaking', 'heights', 'spiders',
+    'conflict', 'criticism', 'abandonment', 'rejection', 'failure',
+  ]
+
+  const commonSensitivities = [
+    'political discussions', 'religious topics', 'money conversations',
+    'family issues', 'past relationships', 'future planning',
+  ]
+
+  const commonDisabilities = [
+    'vision impairment', 'hearing impairment', 'mobility impairment',
+    'chronic pain', 'mental health conditions', 'learning disabilities',
   ]
 
   const handleInterestToggle = (interest: string) => {
@@ -47,35 +110,69 @@ export default function ProfileStep({ profileNumber, onComplete }: ProfileStepPr
     }
   }
 
-  const handleSubmit = () => {
+  const handleLoveLanguageChange = (language: keyof typeof loveLanguages, value: number) => {
+    setLoveLanguages(prev => ({ ...prev, [language]: value }))
+  }
+
+  const handleArrayToggle = (array: string[], setArray: (arr: string[]) => void, item: string) => {
+    if (array.includes(item)) {
+      setArray(array.filter(i => i !== item))
+    } else {
+      setArray([...array, item])
+    }
+  }
+
+  const nextSection = () => {
+    if (currentSection < sections.length - 1) {
+      setCurrentSection(currentSection + 1)
+    } else {
+      handleComplete()
+    }
+  }
+
+  const prevSection = () => {
+    if (currentSection > 0) {
+      setCurrentSection(currentSection - 1)
+    }
+  }
+
+  const handleComplete = () => {
     if (isSubmitting) return
-    
-    console.log('handleSubmit called', { name, interests: interests.length, profileNumber })
-    
-    if (!name || interests.length === 0) {
-      console.log('Validation failed', { name, interests: interests.length })
-      alert('Please enter your name and select at least one interest.')
+
+    if (!name) {
+      alert('Please enter your name.')
       return
     }
 
     setIsSubmitting(true)
-    
+
     try {
       const profile: Profile = {
         id: `profile-${profileNumber}-${Date.now()}`,
         name,
         pronouns: pronouns || undefined,
-        interests: interests.slice(0, 5),
+        interests,
         favoriteDateTypes,
         personality,
+        loveLanguages,
+        triggers,
+        sensitivities,
+        issues,
+        hopes,
+        goals,
+        location: location.city ? location : undefined,
+        isLongDistance,
+        socialAbility,
+        disabilities,
+        mobilityLevel,
+        budget,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       }
 
-      console.log('Calling onComplete with profile:', profile)
       onComplete(profile)
     } catch (error) {
-      console.error('Error in handleSubmit:', error)
+      console.error('Error creating profile:', error)
       setIsSubmitting(false)
     }
   }

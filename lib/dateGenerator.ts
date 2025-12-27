@@ -2,6 +2,8 @@
 
 import type { Profile, DateNight } from '@/types'
 import { dateTemplates } from '@/data/dateTemplates'
+import { filterDates, type FilteredDateResult } from './dateFilter'
+import { calculateProfileCompatibility } from './profileMatcher'
 
 interface MatchingScore {
   date: DateNight
@@ -110,10 +112,21 @@ export async function generateDateSuggestions(
     date => !recentlyUsedDateIds.includes(date.id)
   )
 
-  // Calculate scores for all available dates
-  const scoredDates = availableDates.map(date => 
-    calculateDateScore(date, profile1, profile2)
-  )
+  // Apply comprehensive filtering
+  const filteredResults = filterDates(availableDates, profile1, profile2)
+
+  // Convert filtered results to matching scores
+  const scoredDates: MatchingScore[] = filteredResults
+    .filter(result => result.compatible) // Only include compatible dates
+    .map(result => ({
+      date: result.date,
+      score: result.score,
+      reasons: [
+        ...result.reasons,
+        ...result.accessibilityNotes.map(note => `Accessibility: ${note}`),
+        result.budgetTier ? `Budget tier: ${result.budgetTier}` : ''
+      ].filter(Boolean)
+    }))
 
   // Sort by score (highest first)
   scoredDates.sort((a, b) => b.score - a.score)
@@ -124,7 +137,7 @@ export async function generateDateSuggestions(
 
   for (const scored of scoredDates) {
     if (selected.length >= 3) break
-    
+
     // Prefer variety in categories
     if (!usedCategories.includes(scored.date.category) || selected.length < 2) {
       selected.push(scored)
@@ -140,5 +153,35 @@ export async function generateDateSuggestions(
   }
 
   return selected.slice(0, 3)
+}
+
+/**
+ * Generate a single random date with enhanced filtering
+ */
+export async function generateRandomDate(
+  profile1: Profile,
+  profile2: Profile
+): Promise<DateNight> {
+  const filteredResults = filterDates(dateTemplates, profile1, profile2)
+  const compatibleDates = filteredResults.filter(result => result.compatible)
+
+  if (compatibleDates.length === 0) {
+    // Fallback to any date if no compatible ones found
+    return dateTemplates[Math.floor(Math.random() * dateTemplates.length)]
+  }
+
+  // Weight selection by compatibility score
+  const totalScore = compatibleDates.reduce((sum, result) => sum + result.score, 0)
+  let random = Math.random() * totalScore
+
+  for (const result of compatibleDates) {
+    random -= result.score
+    if (random <= 0) {
+      return result.date
+    }
+  }
+
+  // Fallback
+  return compatibleDates[0].date
 }
 

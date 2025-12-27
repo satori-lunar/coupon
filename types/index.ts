@@ -12,6 +12,43 @@ export interface Profile {
     budget: 'low' | 'medium' | 'high'
     pace: 'relaxed' | 'adventurous' | 'balanced'
   }
+
+  // Love Languages (1-5 scale for each)
+  loveLanguages: {
+    wordsOfAffirmation: number
+    qualityTime: number
+    receivingGifts: number
+    actsOfService: number
+    physicalTouch: number
+  }
+
+  // Relationship Insights
+  triggers: string[] // Things to avoid
+  sensitivities: string[] // Sensitive topics
+  issues: string[] // Things to work on
+  hopes: string[] // Dreams and aspirations
+  goals: string[] // Relationship goals
+
+  // Practical Details
+  location?: {
+    city: string
+    country: string
+    coordinates?: { lat: number; lng: number }
+  }
+  isLongDistance: boolean
+
+  // Accessibility & Preferences
+  socialAbility: 'very-shy' | 'shy' | 'moderate' | 'outgoing' | 'very-outgoing'
+  disabilities: string[] // Accessibility needs
+  mobilityLevel: 'full' | 'limited' | 'wheelchair' | 'other'
+
+  // Budget (enhanced)
+  budget: {
+    low: number // Max per date
+    medium: number
+    high: number
+  }
+
   createdAt: string
   updatedAt: string
 }
