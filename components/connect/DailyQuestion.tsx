@@ -102,7 +102,7 @@ export default function DailyQuestion({ onComplete }: DailyQuestionProps) {
 
   // Check if guess was correct
   const isGuessCorrect = () => {
-    if (!partnerId || !todayPrompt?.responses?.[partnerId] || !todayPrompt?.guesses?.[currentUserId]) {
+    if (!currentUserId || !partnerId || !todayPrompt?.responses?.[partnerId] || !todayPrompt?.guesses?.[currentUserId]) {
       return false
     }
     const partnerAnswer = todayPrompt.responses[partnerId].toLowerCase().trim()
