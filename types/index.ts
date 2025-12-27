@@ -187,7 +187,9 @@ export interface DailyPrompt {
   question: string
   category: string
   date: string
-  responses?: Record<string, string> // userId -> response
+  responses?: Record<string, string> // userId -> their own answer
+  guesses?: Record<string, string> // userId -> their guess of partner's answer
+  guessRevealed?: Record<string, boolean> // userId -> whether they've seen the feedback
 }
 
 export interface ScheduledDate {

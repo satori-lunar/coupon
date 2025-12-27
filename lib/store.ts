@@ -34,6 +34,8 @@ interface AppStore extends AppState {
   addScheduledDate: (date: ScheduledDate) => void
   addDailyPrompt: (prompt: DailyPrompt) => void
   addDailyPromptResponse: (date: string, question: string, userId: string, response: string) => Promise<void>
+  addDailyPromptGuess: (date: string, userId: string, guess: string) => Promise<void>
+  markGuessRevealed: (date: string, userId: string) => Promise<void>
   addConversationStarter: (starter: ConversationStarter) => void
   addMoment: (moment: Moment) => void
   // New actions for enhanced features
@@ -168,6 +170,48 @@ export const useAppStore = create<AppStore>((set, get) => ({
         }
         return { dailyPrompts: [...existingPrompts, newPrompt] }
       }
+    })
+    await get().saveAppState()
+  },
+
+  addDailyPromptGuess: async (date: string, userId: string, guess: string) => {
+    set((state) => {
+      const existingPrompts = state.dailyPrompts || []
+      const existingPromptIndex = existingPrompts.findIndex(p => p.date === date)
+
+      if (existingPromptIndex >= 0) {
+        const updatedPrompts = [...existingPrompts]
+        updatedPrompts[existingPromptIndex] = {
+          ...updatedPrompts[existingPromptIndex],
+          guesses: {
+            ...updatedPrompts[existingPromptIndex].guesses,
+            [userId]: guess,
+          },
+        }
+        return { dailyPrompts: updatedPrompts }
+      }
+      return state
+    })
+    await get().saveAppState()
+  },
+
+  markGuessRevealed: async (date: string, userId: string) => {
+    set((state) => {
+      const existingPrompts = state.dailyPrompts || []
+      const existingPromptIndex = existingPrompts.findIndex(p => p.date === date)
+
+      if (existingPromptIndex >= 0) {
+        const updatedPrompts = [...existingPrompts]
+        updatedPrompts[existingPromptIndex] = {
+          ...updatedPrompts[existingPromptIndex],
+          guessRevealed: {
+            ...updatedPrompts[existingPromptIndex].guessRevealed,
+            [userId]: true,
+          },
+        }
+        return { dailyPrompts: updatedPrompts }
+      }
+      return state
     })
     await get().saveAppState()
   },
