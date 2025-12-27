@@ -26,7 +26,7 @@ export const dateTemplates: DateTemplate[] = [
       { number: 2, text: 'Answer these 3 gentle questions (app supplies them)', icon: '💬' },
       { number: 3, text: 'Share one small plan for your week', icon: '📝' },
     ],
-    virtualAdaptation: 'Use video call and the app's shared timer.',
+    virtualAdaptation: 'Use video call and the app shared timer.',
   },
   {
     id: 'sunset-walk',
