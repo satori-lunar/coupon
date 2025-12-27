@@ -3,7 +3,6 @@
 import type { Profile, DateNight } from '@/types'
 import { dateTemplates } from '@/data/dateTemplates'
 import { filterDates, type FilteredDateResult } from './dateFilter'
-import { calculateProfileCompatibility } from './profileMatcher'
 
 interface MatchingScore {
   date: DateNight

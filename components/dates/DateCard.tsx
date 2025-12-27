@@ -17,7 +17,6 @@ export default function DateCard({ date, why = [], accessibilityNotes = [], budg
   const [isVirtual, setIsVirtual] = useState(false)
   const [showSchedule, setShowSchedule] = useState(false)
   const [showDetails, setShowDetails] = useState(false)
-  const [showDetails, setShowDetails] = useState(false)
 
   // Get couple profiles for accessibility recommendations
   const profileIds = Object.keys(profiles)
@@ -31,8 +30,9 @@ export default function DateCard({ date, why = [], accessibilityNotes = [], budg
   const handleSchedule = () => {
     if (coupleId) {
       addScheduledDate({
-        id: date.id,
+        id: `${date.id}-${Date.now()}`,
         coupleId,
+        dateNightId: date.id,
         title: date.title,
         scheduledFor: new Date().toISOString(),
         status: 'scheduled',
