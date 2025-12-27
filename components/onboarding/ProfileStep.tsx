@@ -336,7 +336,7 @@ export default function ProfileStep({ profileNumber, onComplete }: ProfileStepPr
               e.preventDefault()
               e.stopPropagation()
               if (name && interests.length > 0 && !isSubmitting) {
-                handleSubmit()
+                handleComplete()
               }
             }
           }}
