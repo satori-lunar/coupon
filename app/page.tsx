@@ -4,12 +4,13 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAppStore } from '@/lib/store'
 import AppLayout from '@/components/navigation/AppLayout'
+import WeeklySuggestions from '@/components/connect/WeeklySuggestions'
 import { MessageCircle, Calendar, Send, ChevronRight } from 'lucide-react'
 import { motion } from 'framer-motion'
 
 export default function RootPage() {
   const [isLoading, setIsLoading] = useState(true)
-  const { loadAppState, currentUserId, profiles } = useAppStore()
+  const { loadAppState, currentUserId, profiles, dailyPrompts, couple } = useAppStore()
   const router = useRouter()
 
   useEffect(() => {
@@ -19,6 +20,21 @@ export default function RootPage() {
     }
     checkOnboarding()
   }, [loadAppState])
+
+  // Check daily question status
+  const today = new Date().toISOString().split('T')[0]
+  const todayPrompt = dailyPrompts?.find(p => p.date === today)
+  const partnerId = couple
+    ? couple.partner1Id === currentUserId
+      ? couple.partner2Id
+      : couple.partner1Id
+    : null
+
+  const hasMyAnswer = currentUserId && todayPrompt?.responses?.[currentUserId]
+  const hasPartnerAnswer = partnerId && todayPrompt?.responses?.[partnerId]
+  const hasMyGuess = currentUserId && todayPrompt?.guesses?.[currentUserId]
+  const hasRevealed = currentUserId && todayPrompt?.guessRevealed?.[currentUserId]
+  const isQuestionComplete = hasMyAnswer && hasPartnerAnswer && hasMyGuess && hasRevealed
 
   if (isLoading) {
     return (
@@ -58,35 +74,68 @@ export default function RootPage() {
           <div className="text-7xl">💑</div>
         </motion.div>
 
-        {/* Daily Connection Prompt */}
+        {/* Daily Question Card - THE HEART OF THE APP */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
           className="bg-white rounded-3xl p-6 mb-5 shadow-lg border border-purple-100/50 active:scale-[0.98] transition-transform cursor-pointer"
-          onClick={() => router.push('/connect')}
+          onClick={() => router.push('/daily-question')}
         >
           <div className="flex items-start gap-4 mb-4">
             <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-violet-600 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-md">
               <MessageCircle className="w-6 h-6 text-white" />
             </div>
             <div className="flex-1">
-              <p className="text-sm font-semibold text-purple-600 mb-2">Today's Connection</p>
+              <p className="text-sm font-semibold text-purple-600 mb-2">
+                {isQuestionComplete ? "Today's Question ✓" : "Today's Question"}
+              </p>
               <p className="text-gray-900 text-base leading-relaxed">
-                What's one thing your partner did recently that made you feel loved?
+                {isQuestionComplete
+                  ? "Great job! Come back tomorrow for a new question."
+                  : !hasMyAnswer
+                  ? "What's your favorite movie?"
+                  : !hasPartnerAnswer
+                  ? "Waiting for your partner to answer..."
+                  : !hasMyGuess
+                  ? "Now guess your partner's answer!"
+                  : "See how well you know them"}
               </p>
             </div>
           </div>
-          <button className="w-full bg-gradient-to-r from-purple-500 to-violet-600 text-white py-3.5 rounded-2xl text-base font-semibold hover:from-purple-600 hover:to-violet-700 transition-all shadow-md">
-            Answer Together
-          </button>
+          {!isQuestionComplete && (
+            <button className="w-full bg-gradient-to-r from-purple-500 to-violet-600 text-white py-3.5 rounded-2xl text-base font-semibold hover:from-purple-600 hover:to-violet-700 transition-all shadow-md">
+              {!hasMyAnswer
+                ? "Answer Now"
+                : !hasPartnerAnswer
+                ? "Check Status"
+                : !hasMyGuess
+                ? "Make Your Guess"
+                : "View Results"}
+            </button>
+          )}
+          {isQuestionComplete && (
+            <div className="text-center py-2">
+              <p className="text-gray-500 text-sm">Come back tomorrow 💜</p>
+            </div>
+          )}
+        </motion.div>
+
+        {/* Weekly Love Suggestions */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="mb-5"
+        >
+          <WeeklySuggestions />
         </motion.div>
 
         {/* Relationship Pulse */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
+          transition={{ delay: 0.25 }}
           className="bg-white rounded-3xl p-6 mb-5 shadow-lg border border-pink-100/50"
         >
           <div className="flex items-center justify-between mb-5">
@@ -114,7 +163,7 @@ export default function RootPage() {
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25 }}
+          transition={{ delay: 0.3 }}
           className="bg-gradient-to-br from-amber-100 to-orange-100 rounded-3xl p-6 mb-6 shadow-lg border border-amber-200/50 active:scale-[0.98] transition-transform cursor-pointer"
           onClick={() => router.push('/more')}
         >
@@ -134,7 +183,7 @@ export default function RootPage() {
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
+          transition={{ delay: 0.35 }}
           className="space-y-3"
         >
           <p className="text-sm font-semibold text-gray-500 px-1 mb-3">Quick Actions</p>

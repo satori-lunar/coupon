@@ -17,6 +17,7 @@ import type {
   GeneratedDate,
   OnboardingProgress,
   DateGeneratorInput,
+  WeeklySuggestion,
 } from '@/types'
 
 interface AppStore extends AppState {
@@ -34,6 +35,8 @@ interface AppStore extends AppState {
   addScheduledDate: (date: ScheduledDate) => void
   addDailyPrompt: (prompt: DailyPrompt) => void
   addDailyPromptResponse: (date: string, question: string, userId: string, response: string) => Promise<void>
+  addDailyPromptGuess: (date: string, userId: string, guess: string) => Promise<void>
+  markGuessRevealed: (date: string, userId: string) => Promise<void>
   addConversationStarter: (starter: ConversationStarter) => void
   addMoment: (moment: Moment) => void
   // New actions for enhanced features
@@ -44,6 +47,9 @@ interface AppStore extends AppState {
   updateOnboarding: (progress: OnboardingProgress) => void
   completeOnboarding: () => void
   updateSettings: (settings: Partial<AppState['settings']>) => void
+  addWeeklySuggestion: (suggestion: WeeklySuggestion) => void
+  selectSuggestion: (weekOf: string, suggestionId: string) => void
+  completeSuggestion: (weekOf: string, suggestionId: string) => void
   loadAppState: () => Promise<void>
   saveAppState: () => Promise<void>
   reset: () => void
@@ -61,6 +67,7 @@ export const useAppStore = create<AppStore>((set, get) => ({
   savedDates: [],
   adventureBook: [],
   lastGeneratedDates: [],
+  weeklySuggestions: [],
   settings: {
     fontSize: 'normal',
     notifications: true,
@@ -172,6 +179,48 @@ export const useAppStore = create<AppStore>((set, get) => ({
     await get().saveAppState()
   },
 
+  addDailyPromptGuess: async (date: string, userId: string, guess: string) => {
+    set((state) => {
+      const existingPrompts = state.dailyPrompts || []
+      const existingPromptIndex = existingPrompts.findIndex(p => p.date === date)
+
+      if (existingPromptIndex >= 0) {
+        const updatedPrompts = [...existingPrompts]
+        updatedPrompts[existingPromptIndex] = {
+          ...updatedPrompts[existingPromptIndex],
+          guesses: {
+            ...updatedPrompts[existingPromptIndex].guesses,
+            [userId]: guess,
+          },
+        }
+        return { dailyPrompts: updatedPrompts }
+      }
+      return state
+    })
+    await get().saveAppState()
+  },
+
+  markGuessRevealed: async (date: string, userId: string) => {
+    set((state) => {
+      const existingPrompts = state.dailyPrompts || []
+      const existingPromptIndex = existingPrompts.findIndex(p => p.date === date)
+
+      if (existingPromptIndex >= 0) {
+        const updatedPrompts = [...existingPrompts]
+        updatedPrompts[existingPromptIndex] = {
+          ...updatedPrompts[existingPromptIndex],
+          guessRevealed: {
+            ...updatedPrompts[existingPromptIndex].guessRevealed,
+            [userId]: true,
+          },
+        }
+        return { dailyPrompts: updatedPrompts }
+      }
+      return state
+    })
+    await get().saveAppState()
+  },
+
   addConversationStarter: (starter: ConversationStarter) => {
     set((state) => ({
       conversationStarters: [...(state.conversationStarters || []), starter],
@@ -234,6 +283,47 @@ export const useAppStore = create<AppStore>((set, get) => ({
     get().saveAppState()
   },
 
+  addWeeklySuggestion: (suggestion: WeeklySuggestion) => {
+    set((state) => ({
+      weeklySuggestions: [...(state.weeklySuggestions || []), suggestion],
+    }))
+    get().saveAppState()
+  },
+
+  selectSuggestion: (weekOf: string, suggestionId: string) => {
+    set((state) => ({
+      weeklySuggestions: (state.weeklySuggestions || []).map((week) =>
+        week.weekOf === weekOf
+          ? {
+              ...week,
+              suggestions: week.suggestions.map((sug) =>
+                sug.id === suggestionId ? { ...sug, selected: true } : sug
+              ),
+            }
+          : week
+      ),
+    }))
+    get().saveAppState()
+  },
+
+  completeSuggestion: (weekOf: string, suggestionId: string) => {
+    set((state) => ({
+      weeklySuggestions: (state.weeklySuggestions || []).map((week) =>
+        week.weekOf === weekOf
+          ? {
+              ...week,
+              suggestions: week.suggestions.map((sug) =>
+                sug.id === suggestionId
+                  ? { ...sug, completedAt: new Date().toISOString() }
+                  : sug
+              ),
+            }
+          : week
+      ),
+    }))
+    get().saveAppState()
+  },
+
   loadAppState: async () => {
     const state = await persistence.getAppState()
     if (state) {
@@ -252,6 +342,7 @@ export const useAppStore = create<AppStore>((set, get) => ({
         savedDates: state.savedDates || [],
         adventureBook: state.adventureBook || [],
         lastGeneratedDates: state.lastGeneratedDates || [],
+        weeklySuggestions: state.weeklySuggestions || [],
         onboarding: state.onboarding,
         settings: {
           fontSize: state.settings?.fontSize || 'normal',
@@ -285,6 +376,7 @@ export const useAppStore = create<AppStore>((set, get) => ({
       savedDates: state.savedDates || [],
       adventureBook: state.adventureBook || [],
       lastGeneratedDates: state.lastGeneratedDates,
+      weeklySuggestions: state.weeklySuggestions || [],
       onboarding: state.onboarding,
     }
     await persistence.saveAppState(appState)
@@ -306,6 +398,7 @@ export const useAppStore = create<AppStore>((set, get) => ({
       savedDates: [],
       adventureBook: [],
       lastGeneratedDates: [],
+      weeklySuggestions: [],
       onboarding: undefined,
       settings: {
         fontSize: 'normal',

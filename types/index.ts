@@ -187,7 +187,9 @@ export interface DailyPrompt {
   question: string
   category: string
   date: string
-  responses?: Record<string, string> // userId -> response
+  responses?: Record<string, string> // userId -> their own answer
+  guesses?: Record<string, string> // userId -> their guess of partner's answer
+  guessRevealed?: Record<string, boolean> // userId -> whether they've seen the feedback
 }
 
 export interface ScheduledDate {
@@ -358,6 +360,24 @@ export interface GiftSuggestion {
   vendorSuggestion?: string
 }
 
+export interface WeeklySuggestion {
+  id: string
+  userId: string // The user receiving the suggestion
+  partnerId: string // The partner they're loving
+  weekOf: string // ISO date string for the week
+  loveLanguage: string // The primary love language this addresses
+  suggestions: Array<{
+    id: string
+    title: string
+    description: string
+    category: 'action' | 'words' | 'gift' | 'time' | 'touch'
+    effort: 'low' | 'medium' | 'high'
+    selected?: boolean
+    completedAt?: string
+  }>
+  createdAt: string
+}
+
 export interface AppState {
   currentUserId?: string
   coupleId?: string
@@ -375,6 +395,7 @@ export interface AppState {
   adventureBook: AdventureBookEntry[]
   onboarding?: OnboardingProgress
   lastGeneratedDates?: GeneratedDate[]
+  weeklySuggestions: WeeklySuggestion[]
   settings: {
     fontSize: 'normal' | 'large'
     notifications: boolean
