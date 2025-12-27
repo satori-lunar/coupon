@@ -44,8 +44,8 @@ export default function RootPage() {
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
-          <h1 className="text-2xl text-gray-900 mb-1">{greeting}, {userName}</h1>
-          <p className="text-gray-500">How are you and your partner feeling today?</p>
+          <h1 className="text-3xl font-semibold text-gray-900 mb-2">{greeting}, {userName}</h1>
+          <p className="text-base text-gray-600">How are you and your partner feeling today?</p>
         </motion.div>
 
         {/* Hero Illustration */}
@@ -53,9 +53,9 @@ export default function RootPage() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.1 }}
-          className="mb-6 rounded-3xl overflow-hidden bg-gradient-to-br from-rose-100 to-purple-100 p-6 aspect-[4/3] flex items-center justify-center"
+          className="mb-6 rounded-3xl overflow-hidden bg-gradient-to-br from-pink-200 via-purple-200 to-violet-300 p-8 aspect-[4/3] flex items-center justify-center shadow-lg"
         >
-          <div className="text-6xl">💑</div>
+          <div className="text-7xl">💑</div>
         </motion.div>
 
         {/* Daily Connection Prompt */}
@@ -63,21 +63,21 @@ export default function RootPage() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
-          className="bg-white rounded-2xl p-5 mb-4 shadow-sm border border-gray-100 active:scale-[0.99] transition-transform cursor-pointer"
+          className="bg-white rounded-3xl p-6 mb-5 shadow-lg border border-purple-100/50 active:scale-[0.98] transition-transform cursor-pointer"
           onClick={() => router.push('/connect')}
         >
-          <div className="flex items-start gap-3 mb-3">
-            <div className="w-10 h-10 bg-rose-50 rounded-full flex items-center justify-center flex-shrink-0">
-              <MessageCircle className="w-5 h-5 text-rose-500" />
+          <div className="flex items-start gap-4 mb-4">
+            <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-violet-600 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-md">
+              <MessageCircle className="w-6 h-6 text-white" />
             </div>
             <div className="flex-1">
-              <p className="text-xs text-rose-500 mb-1">Today's Connection</p>
-              <p className="text-gray-900">
+              <p className="text-sm font-semibold text-purple-600 mb-2">Today's Connection</p>
+              <p className="text-gray-900 text-base leading-relaxed">
                 What's one thing your partner did recently that made you feel loved?
               </p>
             </div>
           </div>
-          <button className="w-full bg-rose-500 text-white py-3 rounded-xl text-sm font-medium hover:bg-rose-600 transition-colors">
+          <button className="w-full bg-gradient-to-r from-purple-500 to-violet-600 text-white py-3.5 rounded-2xl text-base font-semibold hover:from-purple-600 hover:to-violet-700 transition-all shadow-md">
             Answer Together
           </button>
         </motion.div>
@@ -87,21 +87,27 @@ export default function RootPage() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="bg-white rounded-2xl p-5 mb-4 shadow-sm border border-gray-100"
+          className="bg-white rounded-3xl p-6 mb-5 shadow-lg border border-pink-100/50"
         >
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between mb-5">
             <div>
-              <p className="text-xs text-gray-500 mb-1">Connection Streak</p>
-              <p className="text-2xl text-gray-900">14 days 🔥</p>
+              <p className="text-sm text-gray-500 mb-2 font-medium">Connection Streak</p>
+              <p className="text-3xl font-bold text-gray-900">14 days 🔥</p>
             </div>
             <div className="text-right">
-              <p className="text-xs text-gray-500 mb-1">This Week</p>
-              <p className="text-2xl text-gray-900">5/7</p>
+              <p className="text-sm text-gray-500 mb-2 font-medium">This Week</p>
+              <p className="text-3xl font-bold text-gray-900">5/7</p>
             </div>
           </div>
-          <div className="w-full bg-gray-100 h-2 rounded-full overflow-hidden">
-            <div className="bg-rose-500 h-full rounded-full transition-all" style={{ width: '71%' }} />
+          <div className="w-full bg-purple-50 h-3 rounded-full overflow-hidden">
+            <motion.div
+              initial={{ width: 0 }}
+              animate={{ width: '71%' }}
+              transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
+              className="bg-gradient-to-r from-purple-500 to-violet-600 h-full rounded-full shadow-sm"
+            />
           </div>
+          <p className="text-xs text-gray-500 mt-3 text-center">You're doing amazing! Keep it up 💜</p>
         </motion.div>
 
         {/* Pet Companion */}
@@ -109,16 +115,16 @@ export default function RootPage() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.25 }}
-          className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-5 mb-6 shadow-sm border border-amber-100 active:scale-[0.99] transition-transform cursor-pointer"
+          className="bg-gradient-to-br from-amber-100 to-orange-100 rounded-3xl p-6 mb-6 shadow-lg border border-amber-200/50 active:scale-[0.98] transition-transform cursor-pointer"
           onClick={() => router.push('/more')}
         >
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center text-3xl">
+            <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center text-3xl shadow-md">
               🐰
             </div>
             <div className="flex-1">
-              <p className="text-gray-900 mb-1 font-medium">Benny is happy!</p>
-              <p className="text-xs text-gray-600">Keep connecting to feed your pet</p>
+              <p className="text-gray-900 mb-1 font-semibold text-base">Benny is happy!</p>
+              <p className="text-sm text-gray-600">Keep connecting to feed your pet</p>
             </div>
             <ChevronRight className="w-5 h-5 text-gray-400" />
           </div>
@@ -131,32 +137,32 @@ export default function RootPage() {
           transition={{ delay: 0.3 }}
           className="space-y-3"
         >
-          <p className="text-xs text-gray-500 px-1 mb-2">Quick Actions</p>
+          <p className="text-sm font-semibold text-gray-500 px-1 mb-3">Quick Actions</p>
 
           <button
             onClick={() => router.push('/dates')}
-            className="w-full bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex items-center gap-3 active:scale-[0.99] transition-transform"
+            className="w-full bg-white rounded-2xl p-5 shadow-md border border-gray-100 flex items-center gap-4 active:scale-[0.98] transition-transform hover:shadow-lg"
           >
-            <div className="w-10 h-10 bg-teal-50 rounded-full flex items-center justify-center">
-              <Calendar className="w-5 h-5 text-teal-600" />
+            <div className="w-12 h-12 bg-gradient-to-br from-pink-500 to-rose-600 rounded-2xl flex items-center justify-center shadow-sm">
+              <Calendar className="w-6 h-6 text-white" />
             </div>
             <div className="flex-1 text-left">
-              <p className="text-gray-900 text-sm font-medium">Plan a date</p>
-              <p className="text-xs text-gray-500">Browse personalized ideas</p>
+              <p className="text-gray-900 text-base font-semibold">Plan a date</p>
+              <p className="text-sm text-gray-500">Browse personalized ideas</p>
             </div>
             <ChevronRight className="w-5 h-5 text-gray-300" />
           </button>
 
           <button
             onClick={() => router.push('/more')}
-            className="w-full bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex items-center gap-3 active:scale-[0.99] transition-transform"
+            className="w-full bg-white rounded-2xl p-5 shadow-md border border-gray-100 flex items-center gap-4 active:scale-[0.98] transition-transform hover:shadow-lg"
           >
-            <div className="w-10 h-10 bg-purple-50 rounded-full flex items-center justify-center">
-              <Send className="w-5 h-5 text-purple-600" />
+            <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-violet-600 rounded-2xl flex items-center justify-center shadow-sm">
+              <Send className="w-6 h-6 text-white" />
             </div>
             <div className="flex-1 text-left">
-              <p className="text-gray-900 text-sm font-medium">Send something sweet</p>
-              <p className="text-xs text-gray-500">Share a note or gift</p>
+              <p className="text-gray-900 text-base font-semibold">Send something sweet</p>
+              <p className="text-sm text-gray-500">Share a note or gift</p>
             </div>
             <ChevronRight className="w-5 h-5 text-gray-300" />
           </button>
