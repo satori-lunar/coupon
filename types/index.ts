@@ -247,6 +247,117 @@ export interface Moment {
   redeemedAt?: string
 }
 
+// Enhanced types for new comprehensive spec
+
+export interface DateTemplate {
+  id: string
+  title: string
+  description: string // 1-2 lines
+  category: 'quick' | 'medium' | 'special' // 30m-45m, 1.5-2h, 3+ hours
+  duration: string // e.g., "30-45 minutes", "1.5-2 hours"
+  tags: {
+    interests: string[] // art, cooking, movies, hiking, etc.
+    energy: 'low' | 'medium' | 'high'
+    budget: 'free' | 'low' | 'medium' | 'high'
+    mode: 'in-person' | 'virtual' | 'both'
+    loveLanguages: string[] // QualityTime, Acts, Gifts, etc.
+  }
+  weights: Record<string, number> // for algorithm scoring
+  steps: Array<{
+    number: number
+    text: string
+    icon?: string
+  }>
+  virtualAdaptation?: string
+  giftIdea?: string
+  playlistSuggestion?: string
+}
+
+export interface GeneratedDate extends DateTemplate {
+  whyItFits: string // Personalized explanation referencing partner traits
+  score: number // Algorithm score (for debugging)
+}
+
+export interface SavedDate {
+  id: string
+  coupleId: string
+  templateId: string
+  title: string
+  description: string
+  whyItFits: string
+  steps: Array<{ number: number; text: string; icon?: string }>
+  virtualAdaptation?: string
+  savedAt: string
+  scheduledFor?: string
+  status: 'saved' | 'scheduled' | 'in-progress' | 'completed'
+  completedAt?: string
+  rating?: number
+  notes?: string
+  photos?: string[]
+}
+
+export interface AdventureBookEntry {
+  id: string
+  coupleId: string
+  title: string
+  description: string
+  date: string
+  location?: string
+  photos: string[]
+  tags?: string[]
+  participants: string[]
+  relatedDateId?: string
+  relatedMomentId?: string
+  createdAt: string
+}
+
+export interface Game {
+  id: string
+  name: string
+  description: string // one-line
+  icon: string
+  type: 'memory' | 'tap-to-fly' | 'trivia' | 'cooperative'
+  isMultiplayer: boolean
+  rewardCoins: number
+  estimatedTime: string // e.g., "5 minutes"
+}
+
+export interface DateGeneratorInput {
+  interests: string[]
+  energy: 'low' | 'medium' | 'high'
+  budget: 'free' | 'low' | 'medium' | 'high'
+  mode: 'in-person' | 'virtual'
+  duration?: '30m' | '1h' | '3h' | 'day'
+}
+
+export interface OnboardingProgress {
+  userId: string
+  step: number
+  completed: boolean
+  data: {
+    name?: string
+    avatar?: string
+    loveLanguages?: string[] // up to 2
+    interests?: string[] // up to 5
+    energy?: 'low' | 'medium' | 'high'
+    budget?: 'free' | 'low' | 'medium' | 'high'
+    distance?: 'local' | 'long-distance'
+    whatMakesYouFeelLoved?: string
+  }
+}
+
+export interface GiftSuggestion {
+  id: string
+  category: 'physical' | 'virtual' | 'experience'
+  title: string
+  description: string
+  why: string // Why this fits
+  howToPresent: string // How to give it
+  budget: 'free' | 'low' | 'medium' | 'high'
+  link?: string
+  vendorSuggestion?: string
+}
+
 export interface AppState {
   currentUserId?: string
   coupleId?: string
@@ -260,6 +371,10 @@ export interface AppState {
   conversationStarters: ConversationStarter[]
   moments: Moment[]
   scheduledDates: ScheduledDate[]
+  savedDates: SavedDate[]
+  adventureBook: AdventureBookEntry[]
+  onboarding?: OnboardingProgress
+  lastGeneratedDates?: GeneratedDate[]
   settings: {
     fontSize: 'normal' | 'large'
     notifications: boolean
