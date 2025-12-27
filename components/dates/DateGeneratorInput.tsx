@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { DateGeneratorInput } from '@/types'
+import type { DateGeneratorInput } from '@/types'
 import { Sparkles } from 'lucide-react'
 
 interface DateGeneratorInputProps {
