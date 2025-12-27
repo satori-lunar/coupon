@@ -187,6 +187,7 @@ export interface DailyPrompt {
   question: string
   category: string
   date: string
+  responses?: Record<string, string> // userId -> response
 }
 
 export interface ScheduledDate {
