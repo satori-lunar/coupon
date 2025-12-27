@@ -163,7 +163,7 @@ export const dateTemplates: DateTemplate[] = [
   // SPECIAL DATES (3+ hours)
   {
     id: 'date-theyll-remember',
-    title: 'A Date They'll Remember',
+    title: 'A Date They Will Remember',
     description: 'An elevated evening of connection, gratitude, and celebration.',
     category: 'special',
     duration: '3-4 hours',
