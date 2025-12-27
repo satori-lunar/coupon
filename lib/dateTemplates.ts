@@ -49,7 +49,7 @@ export const dateTemplates: DateTemplate[] = [
     steps: [
       { number: 1, text: 'Choose a favorite nearby spot', icon: '🚶' },
       { number: 2, text: 'Walk without phones for 20 minutes', icon: '📵' },
-      { number: 3, text: 'Share one thing you're grateful for today', icon: '💭' },
+      { number: 3, text: 'Share one thing you are grateful for today', icon: '💭' },
     ],
     virtualAdaptation: 'Take parallel walks while on a call, describing what you see.',
   },
