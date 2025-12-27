@@ -16,6 +16,7 @@ export default function DateCard({ date, why = [], accessibilityNotes = [], budg
   const { addScheduledDate, coupleId, profiles } = useAppStore()
   const [isVirtual, setIsVirtual] = useState(false)
   const [showSchedule, setShowSchedule] = useState(false)
+  const [showDetails, setShowDetails] = useState(false)
 
   // Get couple profiles for accessibility recommendations
   const profileIds = Object.keys(profiles)
