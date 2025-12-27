@@ -183,8 +183,8 @@ function checkTriggers(date: DateNight, profile1: Profile, profile2: Profile): b
     date.title,
     date.description,
     date.longDescription,
-    ...date.steps,
-    ...date.prompts
+    ...(date.steps || []),
+    ...(date.prompts || [])
   ].join(' ').toLowerCase()
 
   return !allTriggers.concat(allSensitivities).some(avoided =>
