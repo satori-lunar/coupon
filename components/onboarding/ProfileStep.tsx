@@ -195,7 +195,7 @@ export default function ProfileStep({ profileNumber, onComplete }: ProfileStepPr
             e.preventDefault()
             e.stopPropagation()
             if (name && interests.length > 0 && !isSubmitting) {
-              handleComplete\(\)
+              handleSubmit()
             }
           }
         }}
@@ -331,7 +331,7 @@ export default function ProfileStep({ profileNumber, onComplete }: ProfileStepPr
             e.stopPropagation()
             if (!name || interests.length === 0 || isSubmitting) return
             console.log('Button clicked', { name, interests: interests.length, isSubmitting })
-            handleComplete\(\)
+            handleSubmit()
           }}
           onMouseDown={(e) => {
             e.preventDefault()
@@ -347,7 +347,7 @@ export default function ProfileStep({ profileNumber, onComplete }: ProfileStepPr
               e.preventDefault()
               e.stopPropagation()
               if (name && interests.length > 0 && !isSubmitting) {
-                handleComplete\(\)
+                handleSubmit()
               }
             }
           }}
