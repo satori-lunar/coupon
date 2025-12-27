@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAppStore } from '@/lib/store'
 import AppLayout from '@/components/navigation/AppLayout'
+import WeeklySuggestions from '@/components/connect/WeeklySuggestions'
 import { MessageCircle, Calendar, Send, ChevronRight } from 'lucide-react'
 import { motion } from 'framer-motion'
 
@@ -120,11 +121,21 @@ export default function RootPage() {
           )}
         </motion.div>
 
-        {/* Relationship Pulse */}
+        {/* Weekly Love Suggestions */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
+          className="mb-5"
+        >
+          <WeeklySuggestions />
+        </motion.div>
+
+        {/* Relationship Pulse */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.25 }}
           className="bg-white rounded-3xl p-6 mb-5 shadow-lg border border-pink-100/50"
         >
           <div className="flex items-center justify-between mb-5">
@@ -152,7 +163,7 @@ export default function RootPage() {
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25 }}
+          transition={{ delay: 0.3 }}
           className="bg-gradient-to-br from-amber-100 to-orange-100 rounded-3xl p-6 mb-6 shadow-lg border border-amber-200/50 active:scale-[0.98] transition-transform cursor-pointer"
           onClick={() => router.push('/more')}
         >
@@ -172,7 +183,7 @@ export default function RootPage() {
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
+          transition={{ delay: 0.35 }}
           className="space-y-3"
         >
           <p className="text-sm font-semibold text-gray-500 px-1 mb-3">Quick Actions</p>
