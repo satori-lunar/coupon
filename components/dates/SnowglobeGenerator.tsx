@@ -123,6 +123,8 @@ function useShakeDetector(onShake: () => void, threshold: number = 15) {
       if (!accelerationIncludingGravity) return
 
       const { x, y, z } = accelerationIncludingGravity
+      if (x === null || y === null || z === null) return
+
       const currentTime = Date.now()
       const timeDiff = currentTime - lastTime
 
