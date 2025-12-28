@@ -11,14 +11,14 @@ const dancingScript = Dancing_Script({
 })
 
 export const metadata: Metadata = {
-  title: 'Together - Relationship Growth App',
-  description: 'A thoughtful relationship app for couples to grow together',
+  title: 'Lovebirds - Know & Love Each Other Better',
+  description: 'Lovebirds helps couples deeply know and love each other better through daily partner questions, personalized suggestions, and tailored dates.',
   viewport: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no',
-  themeColor: '#FF6B9D',
+  themeColor: '#6A53FF',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'Together',
+    title: 'Lovebirds',
   },
 }
 
