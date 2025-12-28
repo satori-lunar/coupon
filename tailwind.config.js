@@ -8,18 +8,29 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // iOS-inspired color palette
-        background: '#F9F9F9',
+        // Lovebirds color palette
+        background: '#F7F8F6',
         card: '#FFFFFF',
         separator: 'rgba(0, 0, 0, 0.1)',
+        // Primary colors
+        primary: {
+          DEFAULT: '#6A53FF', // Deep Purple
+          light: '#E9E4FF', // Lavender
+          dark: '#5643D9',
+        },
         accent: {
-          DEFAULT: '#FF6B9D', // Rose/blush accent
-          light: '#FFE5ED',
-          dark: '#E85A8A',
+          DEFAULT: '#FF7A73', // Coral
+          light: '#FFE5E3',
+          dark: '#E85A53',
+        },
+        secondary: {
+          DEFAULT: '#FFD9A6', // Soft Peach
+          light: '#FFF0DC',
+          dark: '#F5C57A',
         },
         text: {
-          primary: '#000000',
-          secondary: 'rgba(0, 0, 0, 0.6)',
+          primary: '#111827',
+          secondary: '#6B7280',
           tertiary: 'rgba(0, 0, 0, 0.4)',
         },
         // Handwritten fonts only for gifts/letters
@@ -28,8 +39,8 @@ module.exports = {
         },
       },
       fontFamily: {
-        // System font stack (SF Pro-like)
-        sans: ['-apple-system', 'BlinkMacSystemFont', 'Inter', 'system-ui', 'sans-serif'],
+        // System font stack (Inter-based)
+        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
         // Only for gifts/letters content
         handwritten: ['"Dancing Script"', 'cursive'],
       },
